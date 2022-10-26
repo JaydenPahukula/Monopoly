@@ -13,6 +13,6 @@ void printColor(string s, int color);
 
 string center(string input, const unsigned int WIDTH);
 
-void printGame(const vector<Player*> players);
+void printGame(const vector<Player*> players, const vector<Property*> properties);
 
 #endif

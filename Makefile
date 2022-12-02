@@ -1,5 +1,5 @@
 
-TARGET = main
+TARGET = play
 SRC_FILES = main.cpp Player.cpp Property.cpp gameFunctions.cpp
 
 CXX = g++

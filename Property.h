@@ -4,7 +4,7 @@
 #include <string>
 using namespace std;
 
-class Property {
+class Property final {
 
     string name;
 

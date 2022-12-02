@@ -14,12 +14,8 @@ using namespace std;
 
 int main() {
 
-    Player* p1 = new Player(29);
-    Player* p2 = new Player(21);
-    Player* p3 = new Player(19);
-    Player* p4 = new Player(30);
-    vector<Player*> players = {p1, p2, p3, p4};
-    
+    Player* p1 = new Player();
+    vector<Player*> players = {p1};
     vector<Property*> properties;
     ifstream propertiesFile("settings/properties.txt");
     string name;
@@ -32,7 +28,12 @@ int main() {
     }
     propertiesFile.close();
 
-    printGame(players, properties);
+    while (true){
+        printGame(players, properties);
+        p1->move();
+        cout << "Press ENTER to continue...";
+        cin.ignore();
+    }
 
 
     return 0;

@@ -11,15 +11,11 @@ class Player final {
     int jailCount;
     int balance;
 
-    array<int, 2> roll() const;
-    void goToJail();
-    void act(const short int L);
-
     public:
         Player();
 
         short int getLocation() const;
-        void move();
+        int move();
         bool isInJail();
 
 };

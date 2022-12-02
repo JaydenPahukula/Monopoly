@@ -1,0 +1,23 @@
+#ifndef OWNABLEPROPERTY_H
+#define OWNABLEPROPERTY_H
+
+#include "Player.h"
+#include "Property.h"
+
+#include <string>
+#include <vector>
+using namespace std;
+
+class OwnableProperty final : public Property {
+    private:
+        Player* owner;
+        short int id;
+        vector<int> priceTable;
+        short int numHouses;
+        bool isMonopoly() const;
+    public:
+        OwnableProperty(const string NAME, const int ID);
+        virtual void act(const Player* p) override;
+};
+
+#endif

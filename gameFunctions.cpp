@@ -7,8 +7,60 @@
 #include "gameFunctions.h"
 #include "Player.h"
 #include "Property.h"
+#include "OtherProperty.h"
+#include "RailroadProperty.h"
+#include "UtilityProperty.h"
+#include "OwnableProperty.h"
 
 using namespace std;
+
+array<int, 2> roll(){
+    array<int, 2> r = {(rand()%6)+1,(rand()%6)+1};
+    return r;
+}
+
+void setup(vector<Property*>* properties){
+    properties->at(0) = new OtherProperty("other", 0);
+    properties->at(1) = new OwnableProperty("ownable", 0);
+    properties->at(2) = new OtherProperty("other", 2);
+    properties->at(3) = new OwnableProperty("ownable", 0);
+    properties->at(4) = new OtherProperty("other", 4);
+    properties->at(5) = new RailroadProperty("railroad");
+    properties->at(6) = new OwnableProperty("ownable", 1);
+    properties->at(7) = new OtherProperty("other", 7);
+    properties->at(8) = new OwnableProperty("ownable", 1);
+    properties->at(9) = new OwnableProperty("ownable", 1);
+    properties->at(10) = new OtherProperty("other", 10);
+    properties->at(11) = new OwnableProperty("ownable", 2);
+    properties->at(12) = new UtilityProperty("electric company");
+    properties->at(13) = new OwnableProperty("ownable", 2);
+    properties->at(14) = new OwnableProperty("ownable", 2);
+    properties->at(15) = new RailroadProperty("railroad");
+    properties->at(16) = new OwnableProperty("ownable", 3);
+    properties->at(17) = new OtherProperty("other", 17);
+    properties->at(18) = new OwnableProperty("ownable", 3);
+    properties->at(19) = new OwnableProperty("ownable", 3);
+    properties->at(20) = new OtherProperty("other", 20);
+    properties->at(21) = new OwnableProperty("ownable", 4);
+    properties->at(22) = new OtherProperty("other", 22);
+    properties->at(23) = new OwnableProperty("ownable", 4);
+    properties->at(24) = new OwnableProperty("ownable", 4);
+    properties->at(25) = new RailroadProperty("railroad");
+    properties->at(26) = new OwnableProperty("ownable", 5);
+    properties->at(27) = new OwnableProperty("ownable", 5);
+    properties->at(28) = new UtilityProperty("water works");
+    properties->at(29) = new OwnableProperty("ownable", 5);
+    properties->at(30) = new OtherProperty("other", 30);
+    properties->at(31) = new OwnableProperty("ownable", 6);
+    properties->at(32) = new OwnableProperty("ownable", 6);
+    properties->at(33) = new OtherProperty("other", 33);
+    properties->at(34) = new OwnableProperty("ownable", 6);
+    properties->at(35) = new RailroadProperty("railroad");
+    properties->at(36) = new OtherProperty("other", 36);
+    properties->at(37) = new OwnableProperty("ownable", 7);
+    properties->at(38) = new OtherProperty("other", 38);
+    properties->at(39) = new OwnableProperty("ownable", 7);
+}
 
 void printColor(string s="", int color=7){
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);

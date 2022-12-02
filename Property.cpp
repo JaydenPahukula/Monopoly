@@ -3,9 +3,7 @@
 #include "Player.h"
 #include "Property.h"
 
-Property::Property(string n){
-    name = n;
-}
+Property::Property(){}
 
 string Property::getName(){
     return name;

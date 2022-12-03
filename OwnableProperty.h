@@ -17,7 +17,8 @@ class OwnableProperty final : public Property {
         bool isMonopoly() const;
     public:
         OwnableProperty(const string NAME, const int ID);
-        virtual void act(const Player* p) override;
+        virtual string getType() const override;
+        virtual void act(Player* p) override;
 };
 
 #endif

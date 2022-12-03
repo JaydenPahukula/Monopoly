@@ -11,7 +11,12 @@ UtilityProperty::UtilityProperty(const string NAME){
     owner = nullptr;
 }
 
-void UtilityProperty::act(const Player* p){
+string UtilityProperty::getType() const {
+    return "Utility";
+}
+
+
+void UtilityProperty::act(Player* p){
     cout << "UtilityProperty::act(" << p << ")" << endl;
     return;
 }

@@ -13,7 +13,8 @@ class UtilityProperty final : public Property {
         int numUtilities() const;
     public:
         UtilityProperty(const string NAME);
-        virtual void act(const Player* p) override;
+        virtual string getType() const override;
+        virtual void act(Player* p) override;
 };
 
 #endif

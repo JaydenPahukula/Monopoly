@@ -1,17 +1,19 @@
 #ifndef PROPERTY_H
 #define PROPERTY_H
 
-#include "Player.h"
-
 #include <string>
 using namespace std;
+
+class Player;
 
 class Property {
     protected:
         string name;
     public:
         Property();
-        virtual void act(const Player* p) = 0;
+        virtual ~Property();
+        virtual void act(Player* p) = 0;
+        virtual string getType() const = 0;
         string getName();
 };
 

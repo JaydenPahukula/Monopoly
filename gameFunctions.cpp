@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <windows.h>
@@ -19,47 +20,60 @@ array<int, 2> roll(){
     return r;
 }
 
-void setup(vector<Property*>* properties){
-    properties->at(0) = new OtherProperty("other", 0);
-    properties->at(1) = new OwnableProperty("ownable", 0);
-    properties->at(2) = new OtherProperty("other", 2);
-    properties->at(3) = new OwnableProperty("ownable", 0);
-    properties->at(4) = new OtherProperty("other", 4);
-    properties->at(5) = new RailroadProperty("railroad");
-    properties->at(6) = new OwnableProperty("ownable", 1);
-    properties->at(7) = new OtherProperty("other", 7);
-    properties->at(8) = new OwnableProperty("ownable", 1);
-    properties->at(9) = new OwnableProperty("ownable", 1);
-    properties->at(10) = new OtherProperty("other", 10);
-    properties->at(11) = new OwnableProperty("ownable", 2);
-    properties->at(12) = new UtilityProperty("electric company");
-    properties->at(13) = new OwnableProperty("ownable", 2);
-    properties->at(14) = new OwnableProperty("ownable", 2);
-    properties->at(15) = new RailroadProperty("railroad");
-    properties->at(16) = new OwnableProperty("ownable", 3);
-    properties->at(17) = new OtherProperty("other", 17);
-    properties->at(18) = new OwnableProperty("ownable", 3);
-    properties->at(19) = new OwnableProperty("ownable", 3);
-    properties->at(20) = new OtherProperty("other", 20);
-    properties->at(21) = new OwnableProperty("ownable", 4);
-    properties->at(22) = new OtherProperty("other", 22);
-    properties->at(23) = new OwnableProperty("ownable", 4);
-    properties->at(24) = new OwnableProperty("ownable", 4);
-    properties->at(25) = new RailroadProperty("railroad");
-    properties->at(26) = new OwnableProperty("ownable", 5);
-    properties->at(27) = new OwnableProperty("ownable", 5);
-    properties->at(28) = new UtilityProperty("water works");
-    properties->at(29) = new OwnableProperty("ownable", 5);
-    properties->at(30) = new OtherProperty("other", 30);
-    properties->at(31) = new OwnableProperty("ownable", 6);
-    properties->at(32) = new OwnableProperty("ownable", 6);
-    properties->at(33) = new OtherProperty("other", 33);
-    properties->at(34) = new OwnableProperty("ownable", 6);
-    properties->at(35) = new RailroadProperty("railroad");
-    properties->at(36) = new OtherProperty("other", 36);
-    properties->at(37) = new OwnableProperty("ownable", 7);
-    properties->at(38) = new OtherProperty("other", 38);
-    properties->at(39) = new OwnableProperty("ownable", 7);
+void setup(vector<Player*>* players, vector<Property*>* properties){
+
+    //initialize players
+    for (unsigned int i = 0; i < players->size(); i++){
+        players->at(i) = new Player("P"+to_string(i+1));
+    }
+
+    //initialize properties
+    ifstream propertiesFile("settings/properties.txt");
+    array<string, 40> propertyNames;
+    for (int i = 0; i < 40; i++){
+        getline(propertiesFile, propertyNames[i]);
+    }
+    propertiesFile.close();
+    properties->at(0) = new OtherProperty(propertyNames[0], 0);
+    properties->at(1) = new OwnableProperty(propertyNames[1], 0);
+    properties->at(2) = new OtherProperty(propertyNames[2], 2);
+    properties->at(3) = new OwnableProperty(propertyNames[3], 0);
+    properties->at(4) = new OtherProperty(propertyNames[4], 4);
+    properties->at(5) = new RailroadProperty(propertyNames[5]);
+    properties->at(6) = new OwnableProperty(propertyNames[6], 1);
+    properties->at(7) = new OtherProperty(propertyNames[7], 7);
+    properties->at(8) = new OwnableProperty(propertyNames[8], 1);
+    properties->at(9) = new OwnableProperty(propertyNames[9], 1);
+    properties->at(10) = new OtherProperty(propertyNames[10], 10);
+    properties->at(11) = new OwnableProperty(propertyNames[11], 2);
+    properties->at(12) = new UtilityProperty(propertyNames[12]);
+    properties->at(13) = new OwnableProperty(propertyNames[13], 2);
+    properties->at(14) = new OwnableProperty(propertyNames[14], 2);
+    properties->at(15) = new RailroadProperty(propertyNames[15]);
+    properties->at(16) = new OwnableProperty(propertyNames[16], 3);
+    properties->at(17) = new OtherProperty(propertyNames[17], 17);
+    properties->at(18) = new OwnableProperty(propertyNames[18], 3);
+    properties->at(19) = new OwnableProperty(propertyNames[19], 3);
+    properties->at(20) = new OtherProperty(propertyNames[20], 20);
+    properties->at(21) = new OwnableProperty(propertyNames[21], 4);
+    properties->at(22) = new OtherProperty(propertyNames[22], 22);
+    properties->at(23) = new OwnableProperty(propertyNames[23], 4);
+    properties->at(24) = new OwnableProperty(propertyNames[24], 4);
+    properties->at(25) = new RailroadProperty(propertyNames[25]);
+    properties->at(26) = new OwnableProperty(propertyNames[26], 5);
+    properties->at(27) = new OwnableProperty(propertyNames[27], 5);
+    properties->at(28) = new UtilityProperty(propertyNames[28]);
+    properties->at(29) = new OwnableProperty(propertyNames[29], 5);
+    properties->at(30) = new OtherProperty(propertyNames[30], 30);
+    properties->at(31) = new OwnableProperty(propertyNames[31], 6);
+    properties->at(32) = new OwnableProperty(propertyNames[32], 6);
+    properties->at(33) = new OtherProperty(propertyNames[33], 33);
+    properties->at(34) = new OwnableProperty(propertyNames[34], 6);
+    properties->at(35) = new RailroadProperty(propertyNames[35]);
+    properties->at(36) = new OtherProperty(propertyNames[36], 36);
+    properties->at(37) = new OwnableProperty(propertyNames[37], 7);
+    properties->at(38) = new OtherProperty(propertyNames[38], 38);
+    properties->at(39) = new OwnableProperty(propertyNames[39], 7);
 }
 
 void printColor(string s="", int color=7){

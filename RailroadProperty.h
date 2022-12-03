@@ -10,10 +10,12 @@ using namespace std;
 class RailroadProperty final : public Property {
     private:
         Player* owner;
-        int numRRs() const;
+        const short int PURCHASEPRICE = 200;
+        unsigned short int getPrice() const;
     public:
         RailroadProperty(const string NAME);
-        virtual void act(const Player* p) override;
+        virtual string getType() const override;
+        virtual void act(Player* player) override;
 };
 
 #endif

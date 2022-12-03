@@ -5,6 +5,8 @@
 
 Property::Property(){}
 
+Property::~Property(){}
+
 string Property::getName(){
     return name;
 }

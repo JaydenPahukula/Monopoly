@@ -6,16 +6,17 @@
 
 #include <string>
 #include <vector>
-
 using namespace std;
 
 array<int, 2> roll();
-void setup(vector<Property*>* properties);
+
+void setup(vector<Player*>* players, vector<Property*>* properties);
+
 void printColor(string s, int color);
+
 string center(string input, const unsigned int WIDTH);
+
 void printGame(const vector<Player*> players, const vector<Property*> properties);
-
-
 
 
 #endif

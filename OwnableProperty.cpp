@@ -14,7 +14,11 @@ OwnableProperty::OwnableProperty(const string NAME, const int ID){
     numHouses = 0;
 }
 
-void OwnableProperty::act(const Player* p){
+string OwnableProperty::getType() const {
+    return "Ownable";
+}
+
+void OwnableProperty::act(Player* p){
     cout << "OwnableProperty::act(" << p << "), " << id << endl;
     return;
 }

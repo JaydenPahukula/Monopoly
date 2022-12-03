@@ -12,7 +12,8 @@ class OtherProperty final : public Property {
         short int location;
     public:
         OtherProperty(const string NAME, const short int LOCATION);
-        virtual void act(const Player* p) override;
+        virtual string getType() const override;
+        virtual void act(Player* p) override;
 };
 
 #endif

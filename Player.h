@@ -1,23 +1,28 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "Property.h"
+
 #include <array>
 #include <string>
 #include <vector>
 using namespace std;
 
-class Property;
+class Property; // <- because Property and Player refer to each other
 
 class Player final {
     private:
         string name;
-        short location;
+        bool bot;
+        short int location;
         bool inJail;
-        int jailCount;
+        short int jailCount;
+        short int getOutOfJailCards;
         int balance;
         vector<Property*> ownedProperties;
+        bool moveInJail();
     public:
-        Player(const string NAME);
+        Player(const string NAME, const bool BOT);
         bool move();
         void goToJail();
         void buy(Property* PROPERTY, const unsigned int PRICE);
@@ -28,6 +33,7 @@ class Player final {
         unsigned short int getNumRRs() const;
         unsigned short int getNumUtilities() const;
         bool isInJail() const;
+        bool isBot() const;
 
 };
 

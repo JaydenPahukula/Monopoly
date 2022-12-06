@@ -28,13 +28,24 @@ void RailroadProperty::act(Player* player){
         cout << "    This property is unowned,";
         if (player->getBalance() >= PURCHASEPRICE){
             cout << " would you like to buy it for $" << PURCHASEPRICE << "? (current balance is: $" << player->getBalance() << ") Y/N:\n";
-            do {
-                cin >> choice;
-            } while (choice != 'Y' && choice != 'N');
+
+            //bot player will always buy
+            if(player->isBot()){ 
+                cout << "Y" << endl;
+                choice = 'Y';
+            //get user input
+            } else { 
+                do {
+                    cin >> choice;
+                } while (choice != 'Y' && choice != 'N');
+            }
+            
             if (choice == 'Y'){ //buy
                 owner = player;
                 player->buy(this, PURCHASEPRICE);
                 cout << "    Purchased!" << endl;
+            } else {
+                cout << "    Didn't purchase" << endl;
             }
         } else {
             cout << " but you cannot afford it" << endl;

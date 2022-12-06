@@ -14,7 +14,7 @@ using namespace std;
 
 int main() {
 
-    vector<Player*> players(2, nullptr);
+    vector<Player*> players(3, nullptr);
     vector<Property*> properties(41, nullptr);
     
     
@@ -41,8 +41,10 @@ int main() {
                 break;
             }
             //perform action at new location
-            cout << "  Landed on " << properties[currPlayer->getLocation()]->getName() << endl;
-            properties[currPlayer->getLocation()]->act(currPlayer);
+            if (!currPlayer->isInJail()){
+                cout << "  Landed on " << properties[currPlayer->getLocation()]->getName() << endl;
+                properties[currPlayer->getLocation()]->act(currPlayer);
+            }
         }
 
         //increment currPlayer

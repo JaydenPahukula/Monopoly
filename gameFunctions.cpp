@@ -24,7 +24,7 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
 
     //initialize players
     for (unsigned int i = 0; i < players->size(); i++){
-        players->at(i) = new Player("P"+to_string(i+1));
+        players->at(i) = new Player("P"+to_string(i+1), i);
     }
 
     //initialize properties
@@ -74,6 +74,8 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
     properties->at(37) = new OwnableProperty(propertyNames[37], 7);
     properties->at(38) = new OtherProperty(propertyNames[38], 38);
     properties->at(39) = new OwnableProperty(propertyNames[39], 7);
+
+    return;
 }
 
 void printColor(string s="", int color=7){

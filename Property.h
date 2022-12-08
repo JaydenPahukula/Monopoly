@@ -14,7 +14,7 @@ class Property {
     public:
         Property();
         virtual ~Property();
-        virtual void act(Player* p) = 0;
+        virtual void act(Player* player) = 0;
         virtual string getType() const = 0;
         string getName();
 };

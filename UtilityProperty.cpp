@@ -16,7 +16,7 @@ string UtilityProperty::getType() const {
 }
 
 
-void UtilityProperty::act(Player* p){
-    cout << "UtilityProperty::act(" << p << ")" << endl;
+void UtilityProperty::act(Player* player){
+    cout << "UtilityProperty::act(" << player << ")" << endl;
     return;
 }

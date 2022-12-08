@@ -4,13 +4,29 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
-OwnableProperty::OwnableProperty(const string NAME, const int ID){
+/*
+price table guide:
+0 - purchase price
+1 - house price
+2 - base
+3 - 1 house
+4 - 2 houses
+5 - 3 houses
+6 - 4 houses
+7 - hotel
+*/
+
+OwnableProperty::OwnableProperty(const string NAME, const int ID, const vector<int> TABLE){
     name = NAME;
     id = ID;
     owner = nullptr;
-    priceTable = vector<int>(4, 10);
+    priceTable = vector<int>(8, 0);
+    for (unsigned int i = 0; i < 8; i++){
+        priceTable[i] = TABLE[i];
+    }
     numHouses = 0;
 }
 
@@ -18,7 +34,60 @@ string OwnableProperty::getType() const {
     return "Ownable";
 }
 
-void OwnableProperty::act(Player* p){
-    cout << "OwnableProperty::act(" << p << "), " << id << endl;
+void OwnableProperty::act(Player* player){
+
+    //if unowned
+    if (owner == nullptr){
+        char choice = '0';
+        cout << "    This property is unowned,";
+        if (player->getBalance() >= priceTable[0]){
+            cout << " would you like to buy it for $" << priceTable[0] << "? (current balance is: $" << player->getBalance() << ") Y/N:\n";
+
+            //bot player will always buy
+            if(player->isBot()){ 
+                cout << "    Y" << endl;
+                choice = 'Y';
+            //get user input
+            } else { 
+                do {
+                    cout << "    ";
+                    cin >> choice;
+                } while (choice != 'Y' && choice != 'N');
+            }
+            
+            if (choice == 'Y'){ //buy
+                owner = player;
+                player->buy(this, priceTable[0]);
+                cout << "    Purchased!" << endl;
+            } else {
+                cout << "    Didn't purchase" << endl;
+            }
+        } else {
+            cout << " but you cannot afford it" << endl;
+        }
+
+    //if already owned
+    } else {
+        //if player is owner
+        if (owner == player){
+            cout << "    You own this property" << endl;
+        } else {
+            unsigned short int price = getPrice();
+            owner->changeBalance(price);
+            player->changeBalance(-price);
+            cout << "    This property is owned by " << owner->getName() << "\n    You paid them $" << price;
+            if (numHouses >= 5){
+                cout << " (1 hotel)" << endl;
+            } else if (numHouses > 0){
+                cout << " (" << numHouses << " houses" << endl;
+            } else {
+                cout << endl;
+            }
+        }
+    }
     return;
+}
+
+unsigned short int OwnableProperty::getPrice() const {
+    return 1;
 }

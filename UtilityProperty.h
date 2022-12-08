@@ -14,7 +14,7 @@ class UtilityProperty final : public Property {
     public:
         UtilityProperty(const string NAME);
         virtual string getType() const override;
-        virtual void act(Player* p) override;
+        virtual void act(Player* player) override;
 };
 
 #endif

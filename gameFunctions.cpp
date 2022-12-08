@@ -29,51 +29,51 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
 
     //initialize properties
     ifstream propertiesFile("settings/properties.txt");
-    array<string, 40> propertyNames;
+    string propertyNames[40];
     for (int i = 0; i < 40; i++){
         getline(propertiesFile, propertyNames[i]);
     }
     propertiesFile.close();
     properties->at(0) = new OtherProperty(propertyNames[0], 0);
-    properties->at(1) = new OwnableProperty(propertyNames[1], 0);
+    properties->at(1) = new OwnableProperty(propertyNames[1], 0, {60, 50, 2, 10, 30, 90, 160, 250});
     properties->at(2) = new OtherProperty(propertyNames[2], 2);
-    properties->at(3) = new OwnableProperty(propertyNames[3], 0);
+    properties->at(3) = new OwnableProperty(propertyNames[3], 0, {60, 50, 4, 20, 60, 180, 320, 450});
     properties->at(4) = new OtherProperty(propertyNames[4], 4);
     properties->at(5) = new RailroadProperty(propertyNames[5]);
-    properties->at(6) = new OwnableProperty(propertyNames[6], 1);
+    properties->at(6) = new OwnableProperty(propertyNames[6], 1, {100, 50, 6, 30, 90, 270, 400, 550});
     properties->at(7) = new OtherProperty(propertyNames[7], 7);
-    properties->at(8) = new OwnableProperty(propertyNames[8], 1);
-    properties->at(9) = new OwnableProperty(propertyNames[9], 1);
+    properties->at(8) = new OwnableProperty(propertyNames[8], 1, {100, 50, 6, 30, 90, 270, 400, 550});
+    properties->at(9) = new OwnableProperty(propertyNames[9], 1, {120, 50, 8, 40, 100, 300, 450, 600});
     properties->at(10) = new OtherProperty(propertyNames[10], 10);
-    properties->at(11) = new OwnableProperty(propertyNames[11], 2);
+    properties->at(11) = new OwnableProperty(propertyNames[11], 2, {140, 100, 10, 50, 150, 450, 625, 750});
     properties->at(12) = new UtilityProperty(propertyNames[12]);
-    properties->at(13) = new OwnableProperty(propertyNames[13], 2);
-    properties->at(14) = new OwnableProperty(propertyNames[14], 2);
+    properties->at(13) = new OwnableProperty(propertyNames[13], 2, {140, 100, 10, 50, 150, 450, 625, 750});
+    properties->at(14) = new OwnableProperty(propertyNames[14], 2, {160, 50, 12, 60, 180, 500, 700, 800});
     properties->at(15) = new RailroadProperty(propertyNames[15]);
-    properties->at(16) = new OwnableProperty(propertyNames[16], 3);
+    properties->at(16) = new OwnableProperty(propertyNames[16], 3, {180, 100, 14, 70, 200, 550, 750, 950});
     properties->at(17) = new OtherProperty(propertyNames[17], 17);
-    properties->at(18) = new OwnableProperty(propertyNames[18], 3);
-    properties->at(19) = new OwnableProperty(propertyNames[19], 3);
+    properties->at(18) = new OwnableProperty(propertyNames[18], 3, {180, 100, 14, 70, 200, 550, 750, 950});
+    properties->at(19) = new OwnableProperty(propertyNames[19], 3, {200, 100, 16, 80, 220, 600, 800, 1000});
     properties->at(20) = new OtherProperty(propertyNames[20], 20);
-    properties->at(21) = new OwnableProperty(propertyNames[21], 4);
+    properties->at(21) = new OwnableProperty(propertyNames[21], 4, {220, 150, 18, 90, 250, 700, 875, 1050});
     properties->at(22) = new OtherProperty(propertyNames[22], 22);
-    properties->at(23) = new OwnableProperty(propertyNames[23], 4);
-    properties->at(24) = new OwnableProperty(propertyNames[24], 4);
+    properties->at(23) = new OwnableProperty(propertyNames[23], 4, {220, 150, 18, 90, 250, 700, 875, 1050});
+    properties->at(24) = new OwnableProperty(propertyNames[24], 4, {240, 150, 20, 100, 300, 750, 925, 1100});
     properties->at(25) = new RailroadProperty(propertyNames[25]);
-    properties->at(26) = new OwnableProperty(propertyNames[26], 5);
-    properties->at(27) = new OwnableProperty(propertyNames[27], 5);
+    properties->at(26) = new OwnableProperty(propertyNames[26], 5, {260, 150, 22, 110, 330, 800, 975, 1150});
+    properties->at(27) = new OwnableProperty(propertyNames[27], 5, {260, 150, 22, 110, 330, 800, 975, 1150});
     properties->at(28) = new UtilityProperty(propertyNames[28]);
-    properties->at(29) = new OwnableProperty(propertyNames[29], 5);
+    properties->at(29) = new OwnableProperty(propertyNames[29], 5, {280, 150, 24, 120, 360, 850, 1025, 1200});
     properties->at(30) = new OtherProperty(propertyNames[30], 30);
-    properties->at(31) = new OwnableProperty(propertyNames[31], 6);
-    properties->at(32) = new OwnableProperty(propertyNames[32], 6);
+    properties->at(31) = new OwnableProperty(propertyNames[31], 6, {300, 200, 26, 130, 390, 900, 1100, 1275});
+    properties->at(32) = new OwnableProperty(propertyNames[32], 6, {300, 200, 26, 130, 390, 900, 1100, 1275});
     properties->at(33) = new OtherProperty(propertyNames[33], 33);
-    properties->at(34) = new OwnableProperty(propertyNames[34], 6);
+    properties->at(34) = new OwnableProperty(propertyNames[34], 6, {320, 200, 28, 150, 450, 1000, 1200, 1400});
     properties->at(35) = new RailroadProperty(propertyNames[35]);
     properties->at(36) = new OtherProperty(propertyNames[36], 36);
-    properties->at(37) = new OwnableProperty(propertyNames[37], 7);
+    properties->at(37) = new OwnableProperty(propertyNames[37], 7, {350, 200, 35, 175, 500, 1100, 1300, 1500});
     properties->at(38) = new OtherProperty(propertyNames[38], 38);
-    properties->at(39) = new OwnableProperty(propertyNames[39], 7);
+    properties->at(39) = new OwnableProperty(propertyNames[39], 7, {400, 200, 50, 200, 600, 1400, 1700, 2000});
 
     return;
 }
@@ -193,40 +193,40 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
     printColor("   ", 32);
     cout << center(locations[32],11) << "|" << endl;
     //row 15
-    cout << "15 |--------------|                                                                                                  |--------------|" << endl;
+    cout << "15 |--------------|          The worlds finest object-oriented board game!                                           |--------------|" << endl;
     //row 16
     cout << "16 |" << center(names[17][0], 14);
-    cout << "|                                                                                                  |";
+    cout << "|               ********************************************************************               |";
     cout << center(names[33][0], 14) << "|" << endl;
     //row 17
     cout << "17 |" << center(names[17][1], 14);
-    cout << "|                                                                                                  |";
+    cout << "|               #    ___  ___    ___    __  _    ___    ___    ___    _   __  __   #               |";
     cout << center(names[33][1], 14) << "|" << endl;
     //row 18
     cout << "18 |" << center(locations[17],14)
-        << "|                                                                                                  |"
+        << "|               #   |   \\/   |  /   \\  |  \\| |  /   \\  |   \\  /   \\  | |  \\ \\/ /   #               |"
         << center(locations[33],14) << "|" << endl;
     //row 19
-    cout << "19 |--------------|                                                                                                  |--------------|" << endl;
+    cout << "19 |--------------|               #   | |\\  /| | | ( ) | | |\\  | | ( ) | |  _/ | ( ) | | |_  \\  /    #               |--------------|" << endl;
     //row 20
     cout << "20 |" << center(names[16][0],11);
     printColor("   ", 196);
-    cout << "|                                                                                                  |";
+    cout << "|               #   |_| \\/ |_|  \\___/  |_| |_|  \\___/  |_|    \\___/  |___| /_/     #               |";
     printColor("   ", 32); cout << center(names[34][0],11) << "|" << endl;
     //row 21
     cout << "21 |" << center(names[16][1],11);
     printColor("   ", 196);
-    cout << "|                                                                                                  |";
+    cout << "|               #                                                                  #               |";
     printColor("   ", 32);
     cout << center(names[34][1],11) << "|" << endl;
     //row 22
     cout << "22 |" << center(locations[16],11);
     printColor("   ", 196);
-    cout << "|                                                                                                  |";
+    cout << "|               ********************************************************************               |";
     printColor("   ", 32);
     cout << center(locations[34],11) << "|" << endl;
     //row 23
-    cout << "23 |--------------|                                                                                                  |--------------|" << endl;
+    cout << "23 |--------------|                                       By Jayden Pahukula                                         |--------------|" << endl;
     //row 24
     cout << "24 |" << center(names[15][0], 14);
     cout << "|                                                                                                  |";

@@ -15,10 +15,11 @@ class OwnableProperty final : public Property {
         vector<int> priceTable;
         short int numHouses;
         bool isMonopoly() const;
+        unsigned short int getPrice() const;
     public:
-        OwnableProperty(const string NAME, const int ID);
+        OwnableProperty(const string NAME, const int ID, const vector<int> TABLE);
         virtual string getType() const override;
-        virtual void act(Player* p) override;
+        virtual void act(Player* player) override;
 };
 
 #endif

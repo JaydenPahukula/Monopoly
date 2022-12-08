@@ -31,11 +31,12 @@ void RailroadProperty::act(Player* player){
 
             //bot player will always buy
             if(player->isBot()){ 
-                cout << "Y" << endl;
+                cout << "    Y" << endl;
                 choice = 'Y';
             //get user input
             } else { 
                 do {
+                    cout << "    ";
                     cin >> choice;
                 } while (choice != 'Y' && choice != 'N');
             }

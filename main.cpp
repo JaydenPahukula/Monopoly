@@ -26,7 +26,10 @@ int main() {
     Player* currPlayer = players[0];
     while (1){
 
-        cout << "\nIt's " << currPlayer->getName() << "'s Turn" << endl;
+        //printGame(players, properties);
+
+        cout << "\nIt's " << currPlayer->getName() << "'s Turn (press ENTER to continue)";
+        cin.ignore();
         
         doubles = true;
         doublesCount = 0;

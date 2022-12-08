@@ -36,6 +36,10 @@ void OtherProperty::act(Player* player){
         case 22:
         case 36:
             cout << "    Drawing Chance..." << endl;
+            break;
+        case 10:
+            cout << "    Just visiting!" << endl;
+            break;
         //Free Parking
         case 20:
             break;

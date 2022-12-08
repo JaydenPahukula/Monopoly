@@ -15,6 +15,7 @@ class OtherProperty final : public Property {
         virtual string getType() const override;
         virtual void act(Player* player) override;
         virtual vector<int> getPriceTable() const override;
+        virtual unsigned short int getNumHouses() const override;
 };
 
 #endif

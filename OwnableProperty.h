@@ -21,7 +21,7 @@ class OwnableProperty final : public Property {
         virtual void act(Player* player) override;
         virtual int getID() const override;
         virtual vector<int> getPriceTable() const override;
-        virtual int getNumHouses() const override;
+        virtual unsigned short int getNumHouses() const override;
         virtual void changeHouses(const int N) override;
 };
 

@@ -17,7 +17,13 @@ Player::Player(const string NAME, const bool BOT){
     inJail = false;
     jailCount = 0;
     getOutOfJailCards = 1;
-    balance = 300;
+    balance = 1500;
+}
+
+void Player::goToJail(){
+    inJail = true;
+    location = 40;
+    return;
 }
 
 bool Player::moveInJail(){
@@ -25,17 +31,17 @@ bool Player::moveInJail(){
     //get user input
     char choice = ' ';
     if (!bot){
-        cout << "  You are currently in jail...\n  1 - Roll to try to get out\n  2 - Pay $50" << endl;
+        cout << "  You are currently in jail...\n    1 - Roll to try to get out\n    2 - Pay $50" << endl;
         if (getOutOfJailCards > 0){
-            cout << "  3 - Use 'Get Out of Jail Free' card (you have " << getOutOfJailCards << ")" << endl;
+            cout << "    3 - Use 'Get Out of Jail Free' card (you have " << getOutOfJailCards << ")" << endl;
             do {
-                cout << "  ";
+                cout << "    ";
                 cin >> choice;
                 cin.ignore();
             } while (choice != '1' && choice != '2' && choice != '3');
         } else {
             do {
-                cout << "  ";
+                cout << "    ";
                 cin >> choice;
                 cin.ignore();
             } while (choice != '1' && choice != '2');
@@ -80,13 +86,13 @@ bool Player::moveInJail(){
     } else {
         jailCount += 1;
         if (jailCount >= 3){
-            cout << "\nYou've been in jail for 3 turns, you must pay $50 to get out..." << endl;
+            cout << "\n  You've been in jail for 3 turns, you must pay $50 to get out...\n  Paid $50" << endl;
             balance -= 50;
             inJail = false;
             location = 10;
             return true;
         } else {
-            cout << "\nStill stuck in jail" << endl;
+            cout << "\n  Still stuck in jail" << endl;
             return false;
         }
     }
@@ -95,7 +101,7 @@ bool Player::moveInJail(){
 void Player::preTurn(){
     char choice = ' ';
     while (1){
-        cout << "  What would you like to do? (you have $" << balance << ")\n  1 - Start your turn\n  2 - View properties\n  3 - Buy a house\n  4 - Sell a house\n";
+        cout << "  What would you like to do? (you have $" << balance << ")\n  1 - Start your turn\n  2 - View owned properties\n  3 - Buy a house\n  4 - Sell a house\n";
         if (bot){
             cout << "  1" << endl;
             choice = '1';
@@ -111,7 +117,7 @@ void Player::preTurn(){
         if (choice == '1'){ return; }
 
         //view properties
-        if (choice == '2'){ printPropertyInfo(); }
+        if (choice == '2'){ printPropertyInfo(); goToJail(); }
 
         //buy/sell house
         if (choice == '3' || choice == '4'){
@@ -119,6 +125,9 @@ void Player::preTurn(){
             char propertyChoice = ' ';
             vector<int> options = printOwnableProperties();
             if (options.size() == 0){
+                cout << "\nPress ENTER to continue:";
+                cin.ignore();
+                cout << endl;
                 continue;
             }
             bool done = false;
@@ -147,7 +156,9 @@ void Player::preTurn(){
 
                 //check if player can afford it
                 if(ownedProperties[property]->getPriceTable()[1] > balance){
-                    cout << "  You cannot afford a house on this property" << endl << endl;
+                    cout << "  You cannot afford a house on this property\n\nPress ENTER to continue:";
+                    cin.ignore();
+                    cout << endl;
                     continue;
                 }
 
@@ -236,12 +247,6 @@ bool Player::move(){
     return doubles;
 }
 
-void Player::goToJail(){
-    inJail = true;
-    location = 40;
-    return;
-}
-
 void Player::buy(Property* PROPERTY, const unsigned int PRICE){
     balance -= PRICE;
     ownedProperties.push_back(PROPERTY);
@@ -313,7 +318,9 @@ void Player::printPropertyInfo() const {
     unsigned short int n = ownedProperties.size();
     cout << endl << name << "'s properties:";
     if (n == 0){
-        cout << "\nYou have no properties yet" << endl << endl;
+        cout << "\nYou don't have any properties yet\n\nPress ENTER to continue:";
+        cin.ignore();
+        cout << endl;
         return;
     }
     vector<vector<string>> names;
@@ -385,5 +392,8 @@ void Player::printPropertyInfo() const {
     for (unsigned int i = 0; i < n; i++){
         cout << "------------+";
     }
-    cout << endl << endl;
+    cout << "\n\nPress ENTER to continue:";
+    cin.ignore();
+    cout << endl;
+    return;
 }

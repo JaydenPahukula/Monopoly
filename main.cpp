@@ -28,7 +28,8 @@ int main() {
 
         //printGame(players, properties);
 
-        cout << "\nIt's " << currPlayer->getName() << "'s Turn!" << endl;
+        cout << "\nIt's " << currPlayer->getName() << "'s Turn! (press ENTER to continue)";
+        cin.ignore();
         if (!currPlayer->isBot()){
             currPlayer->preTurn();
         }
@@ -52,9 +53,8 @@ int main() {
             }
         }
 
-        cout << "\nPress ENTER to continue:\n";
-        // cin.ignore();
-        // cin.ignore();
+        cout << "\nPress ENTER to continue:";
+        cin.ignore();
 
         //increment currPlayer
         currPlayerIndex = (currPlayerIndex + 1) % players.size();

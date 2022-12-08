@@ -21,11 +21,11 @@ unsigned short int RailroadProperty::getPrice() const {
 }
 
 vector<int> RailroadProperty::getPriceTable() const {
-    vector<int> priceTable = {150, 0, 0, 25, 50, 100, 200, 0};
+    vector<int> priceTable = {PURCHASEPRICE, 0, 0, 25, 50, 100, 200, 0};
     return priceTable;
 }
 
-int RailroadProperty::getNumHouses() const {
+unsigned short int RailroadProperty::getNumHouses() const {
     return owner->getNumRRs();
 }
 
@@ -69,7 +69,8 @@ void RailroadProperty::act(Player* player){
             unsigned short int price = getPrice();
             owner->changeBalance(price);
             player->changeBalance(-price);
-            cout << "    This property is owned by " << owner->getName() << "\n    Because they own " << owner->getNumRRs() << " railroad(s), you paid them $" << getPrice() << endl;
+            cout << "    This property is owned by " << owner->getName() << "\n    Because they own " << owner->getNumRRs()
+                << " railroad(s), you paid them $" << price << " (new balance is $" << player->getBalance() << ")" << endl;
         }
     }
     return;

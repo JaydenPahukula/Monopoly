@@ -34,7 +34,7 @@ string OwnableProperty::getType() const {
     return "Ownable";
 }
 
-int OwnableProperty::getNumHouses() const {
+unsigned short int OwnableProperty::getNumHouses() const {
     return numHouses;
 }
 

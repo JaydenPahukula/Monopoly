@@ -20,6 +20,10 @@ vector<int> OtherProperty::getPriceTable() const {
     return priceTable;
 }
 
+unsigned short int OtherProperty::getNumHouses() const {
+    return -1;
+}
+
 void OtherProperty::act(Player* player){
     switch (location) {
         //GO

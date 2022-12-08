@@ -10,12 +10,13 @@ using namespace std;
 class UtilityProperty final : public Property {
     private:
         Player* owner;
-        int numUtilities() const;
+        const unsigned short int PURCHASEPRICE = 150;
     public:
         UtilityProperty(const string NAME);
         virtual string getType() const override;
         virtual void act(Player* player) override;
         virtual vector<int> getPriceTable() const override;
+        virtual unsigned short int getNumHouses() const override;
 };
 
 #endif

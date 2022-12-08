@@ -17,7 +17,7 @@ Player::Player(const string NAME, const bool BOT){
     inJail = false;
     jailCount = 0;
     getOutOfJailCards = 1;
-    balance = 1500;
+    balance = 300;
 }
 
 bool Player::moveInJail(){
@@ -25,7 +25,7 @@ bool Player::moveInJail(){
     //get user input
     char choice = ' ';
     if (!bot){
-        cout << "  Currently in jail...\n  1 - Roll to try to get out\n  2 - Pay $50" << endl;
+        cout << "  You are currently in jail...\n  1 - Roll to try to get out\n  2 - Pay $50" << endl;
         if (getOutOfJailCards > 0){
             cout << "  3 - Use 'Get Out of Jail Free' card (you have " << getOutOfJailCards << ")" << endl;
             do {
@@ -95,7 +95,7 @@ bool Player::moveInJail(){
 void Player::preTurn(){
     char choice = ' ';
     while (1){
-        cout << "  What would you like to do? (you have $" << balance << ")\n  1 - Roll!\n  2 - View properties\n  3 - Buy a house\n  4 - Sell a house\n";
+        cout << "  What would you like to do? (you have $" << balance << ")\n  1 - Start your turn\n  2 - View properties\n  3 - Buy a house\n  4 - Sell a house\n";
         if (bot){
             cout << "  1" << endl;
             choice = '1';
@@ -141,7 +141,13 @@ void Player::preTurn(){
 
                 //check if property is already full
                 if (ownedProperties[property]->getNumHouses() >= 5){
-                    cout << "    Cannot buy anymore houses on this property" << endl << endl;
+                    cout << "  You cannot buy anymore houses on this property" << endl << endl;
+                    continue;
+                }
+
+                //check if player can afford it
+                if(ownedProperties[property]->getPriceTable()[1] > balance){
+                    cout << "  You cannot afford a house on this property" << endl << endl;
                     continue;
                 }
 
@@ -156,15 +162,16 @@ void Player::preTurn(){
                 if (confirm == 'Y'){
                     balance -= ownedProperties[property]->getPriceTable()[1];
                     ownedProperties[property]->changeHouses(1);
-                    cout << "  Purchased! (new balance is $" << balance << ")" << endl << endl;
+                    cout << "  Purchased! (new balance is $" << balance << ")" << endl;
                 }
+                cout << endl;
 
             //sell house
             } else {
 
-                //check if property is already full
+                //check if property has houses
                 if (ownedProperties[property]->getNumHouses() <= 0){
-                    cout << "    Cannot sell any houses on this property" << endl << endl;
+                    cout << "  This property doesn't have any houses to sell" << endl << endl;
                     continue;
                 }
 
@@ -179,8 +186,9 @@ void Player::preTurn(){
                 if (confirm == 'Y'){
                     balance += ownedProperties[property]->getPriceTable()[1];
                     ownedProperties[property]->changeHouses(-1);
-                    cout << "  Purchased! (new balance is $" << balance << ")" << endl << endl;
+                    cout << "  Purchased! (new balance is $" << balance << ")" << endl;
                 }
+                cout << endl;
             }
         }
 
@@ -188,7 +196,6 @@ void Player::preTurn(){
 
     return;
 }
-
 
 bool Player::move(){
 

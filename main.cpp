@@ -29,7 +29,9 @@ int main() {
         //printGame(players, properties);
 
         cout << "\nIt's " << currPlayer->getName() << "'s Turn!" << endl;
-        currPlayer->preTurn();
+        if (!currPlayer->isBot()){
+            currPlayer->preTurn();
+        }
         
         doubles = true;
         doublesCount = 0;
@@ -50,7 +52,7 @@ int main() {
             }
         }
 
-        cout << "Press ENTER to continue:\n";
+        cout << "\nPress ENTER to continue:\n";
         // cin.ignore();
         // cin.ignore();
 

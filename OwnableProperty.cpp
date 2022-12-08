@@ -97,7 +97,7 @@ void OwnableProperty::act(Player* player){
 }
 
 unsigned short int OwnableProperty::getPrice() const {
-    return 1;
+    return priceTable[numHouses+2];
 }
 
 int OwnableProperty::getID() const {

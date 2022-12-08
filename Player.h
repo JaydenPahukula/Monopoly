@@ -21,7 +21,7 @@ class Player final {
         int balance;
         vector<Property*> ownedProperties;
         bool moveInJail();
-        void printOwnableProperties() const;
+        vector<int> printOwnableProperties() const;
         void printPropertyInfo() const;
     public:
         Player(const string NAME, const bool BOT);

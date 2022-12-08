@@ -21,6 +21,7 @@ class Property {
         virtual vector<int> getPriceTable() const = 0;
         virtual int getNumHouses() const;
         string getName() const;
+        virtual void changeHouses(const int N);
 };
 
 #endif

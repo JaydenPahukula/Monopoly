@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <ctime>
 #include <vector>
 #include <windows.h>
 
@@ -74,6 +75,8 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
     properties->at(37) = new OwnableProperty(propertyNames[37], 16, {350, 200, 35, 175, 500, 1100, 1300, 1500});
     properties->at(38) = new OtherProperty(propertyNames[38], 38);
     properties->at(39) = new OwnableProperty(propertyNames[39], 16, {400, 200, 50, 200, 600, 1400, 1700, 2000});
+
+    srand(time(0));
 
     return;
 }

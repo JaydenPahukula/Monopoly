@@ -38,6 +38,11 @@ int OwnableProperty::getNumHouses() const {
     return numHouses;
 }
 
+void OwnableProperty::changeHouses(const int N){
+    numHouses += N;
+    return;
+}
+
 void OwnableProperty::act(Player* player){
 
     //if unowned
@@ -56,15 +61,14 @@ void OwnableProperty::act(Player* player){
                 do {
                     cout << "    ";
                     cin >> choice;
+                    cin.ignore();
                 } while (choice != 'Y' && choice != 'N');
             }
             
             if (choice == 'Y'){ //buy
                 owner = player;
                 player->buy(this, priceTable[0]);
-                cout << "    Purchased!" << endl;
-            } else {
-                cout << "    Didn't purchase" << endl;
+                cout << "    Purchased! (new balance is $" << player->getBalance() << ")" << endl;
             }
         } else {
             cout << " but you cannot afford it" << endl;

@@ -47,15 +47,14 @@ void RailroadProperty::act(Player* player){
                 do {
                     cout << "    ";
                     cin >> choice;
+                    cin.ignore();
                 } while (choice != 'Y' && choice != 'N');
             }
             
             if (choice == 'Y'){ //buy
                 owner = player;
                 player->buy(this, PURCHASEPRICE);
-                cout << "    Purchased!" << endl;
-            } else {
-                cout << "    Didn't purchase" << endl;
+                cout << "    Purchased! (new balance is $" << player->getBalance() << ")" << endl;
             }
         } else {
             cout << " but you cannot afford it" << endl;

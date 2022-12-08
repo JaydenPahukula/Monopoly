@@ -45,14 +45,14 @@ int main() {
             }
             //perform action at new location
             if (!currPlayer->isInJail()){
-                cout << "  Landed on " << properties[currPlayer->getLocation()]->getName() << endl;
+                cout << "    Landed on " << properties[currPlayer->getLocation()]->getName() << endl;
                 properties[currPlayer->getLocation()]->act(currPlayer);
             }
         }
 
-        cout << "Press ENTER to continue:";
-        cin.ignore();
-        cin.ignore();
+        cout << "Press ENTER to continue:\n";
+        // cin.ignore();
+        // cin.ignore();
 
         //increment currPlayer
         currPlayerIndex = (currPlayerIndex + 1) % players.size();

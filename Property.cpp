@@ -18,3 +18,7 @@ int Property::getID() const {
 int Property::getNumHouses() const {
     return -1;
 }
+
+void Property::changeHouses(const int N){
+    return;
+}

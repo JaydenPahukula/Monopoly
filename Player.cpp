@@ -4,8 +4,6 @@
 #include "gameFunctions.h"
 
 #include <array>
-#include <cstdlib>
-#include <ctime>
 #include <iomanip>
 #include <iostream>
 #include <string>
@@ -20,7 +18,6 @@ Player::Player(const string NAME, const bool BOT){
     jailCount = 0;
     getOutOfJailCards = 1;
     balance = 1500;
-    srand(time(0));
 }
 
 bool Player::moveInJail(){
@@ -30,13 +27,17 @@ bool Player::moveInJail(){
     if (!bot){
         cout << "  Currently in jail...\n  1 - Roll to try to get out\n  2 - Pay $50" << endl;
         if (getOutOfJailCards > 0){
-            cout << "  3 - Use 'Get Out of Jail Free' card (you have " << getOutOfJailCards << ")" << endl << "  ";
+            cout << "  3 - Use 'Get Out of Jail Free' card (you have " << getOutOfJailCards << ")" << endl;
             do {
+                cout << "  ";
                 cin >> choice;
+                cin.ignore();
             } while (choice != '1' && choice != '2' && choice != '3');
         } else {
             do {
+                cout << "  ";
                 cin >> choice;
+                cin.ignore();
             } while (choice != '1' && choice != '2');
         }
     } else {
@@ -51,7 +52,7 @@ bool Player::moveInJail(){
 
     //pay to get out
     if (choice == '2'){
-        cout << "Paid $50 and got out!" << endl;
+        cout << "  Paid $50 and got out!" << endl;
         balance -= 50;
         inJail = false;
         location = 10;
@@ -60,7 +61,7 @@ bool Player::moveInJail(){
 
     //use get out of jail free card
     if (choice == '3'){
-        cout << "Used a 'Get Out of Jail Free' card! (you have " << getOutOfJailCards-1 << " remaining)" << endl;
+        cout << "  Used a 'Get Out of Jail Free' card! (you have " << getOutOfJailCards-1 << " remaining)" << endl;
         getOutOfJailCards--;
         inJail = false;
         location = 10;
@@ -91,11 +92,10 @@ bool Player::moveInJail(){
     }
 }
 
-
 void Player::preTurn(){
     char choice = ' ';
     while (1){
-        cout << "  What would you like to do?\n  1 - Roll!\n  2 - View properties\n  3 - Buy houses\n  4 - Sell houses\n";
+        cout << "  What would you like to do? (you have $" << balance << ")\n  1 - Roll!\n  2 - View properties\n  3 - Buy a house\n  4 - Sell a house\n";
         if (bot){
             cout << "  1" << endl;
             choice = '1';
@@ -103,24 +103,87 @@ void Player::preTurn(){
             do {
                 cout << "  ";
                 cin >> choice;
+                cin.ignore();
             } while (choice != '1' && choice != '2' && choice != '3' && choice != '4');
         }
 
-        if (choice == '1'){
-            return;
+        //begin turn
+        if (choice == '1'){ return; }
+
+        //view properties
+        if (choice == '2'){ printPropertyInfo(); }
+
+        //buy/sell house
+        if (choice == '3' || choice == '4'){
+            cout << "\n  Which property?" << endl;
+            char propertyChoice = ' ';
+            vector<int> options = printOwnableProperties();
+            if (options.size() == 0){
+                continue;
+            }
+            bool done = false;
+            while (1){
+                cout << "    ";
+                cin >> propertyChoice;
+                cin.ignore();
+                for (unsigned int i = 0; i < options.size(); i++){
+                    if (int(propertyChoice-'1') == options[i]){
+                        done = true;
+                        break;
+                    }
+                }
+                if (done){ break; }
+            }
+            int property = int(propertyChoice-'1');
+
+            //buy house
+            if (choice == '3'){
+
+                //check if property is already full
+                if (ownedProperties[property]->getNumHouses() >= 5){
+                    cout << "    Cannot buy anymore houses on this property" << endl << endl;
+                    continue;
+                }
+
+                //purchase house
+                cout << "\n  Purchase 1 house on " << ownedProperties[property]->getName() << " for $" << ownedProperties[property]->getPriceTable()[1] << "? Y/N:" << endl;
+                char confirm = ' ';
+                do {
+                    cout << "  ";
+                    cin >> confirm;
+                    cin.ignore();
+                } while (confirm != 'Y' && confirm != 'N');
+                if (confirm == 'Y'){
+                    balance -= ownedProperties[property]->getPriceTable()[1];
+                    ownedProperties[property]->changeHouses(1);
+                    cout << "  Purchased! (new balance is $" << balance << ")" << endl << endl;
+                }
+
+            //sell house
+            } else {
+
+                //check if property is already full
+                if (ownedProperties[property]->getNumHouses() <= 0){
+                    cout << "    Cannot sell any houses on this property" << endl << endl;
+                    continue;
+                }
+
+                //sell house
+                cout << "\n  Sell 1 house on " << ownedProperties[property]->getName() << " for $" << ownedProperties[property]->getPriceTable()[1] << "? Y/N:" << endl;
+                char confirm = ' ';
+                do {
+                    cout << "  ";
+                    cin >> confirm;
+                    cin.ignore();
+                } while (confirm != 'Y' && confirm != 'N');
+                if (confirm == 'Y'){
+                    balance += ownedProperties[property]->getPriceTable()[1];
+                    ownedProperties[property]->changeHouses(-1);
+                    cout << "  Purchased! (new balance is $" << balance << ")" << endl << endl;
+                }
+            }
         }
 
-        if (choice == '2'){
-            printPropertyInfo();
-        }
-
-        if (choice == '3'){
-            printOwnableProperties();
-        }
-
-        if (choice == '4'){
-            cout << "\n  sell houses" << endl;
-        }
     }
 
     return;
@@ -137,7 +200,6 @@ bool Player::move(){
 
     if (!bot){
         cout << "  Press ENTER to roll:";
-        cin.ignore();
         cin.ignore();
     }
     
@@ -223,17 +285,21 @@ bool Player::isBot() const {
     return bot;
 }
 
-void Player::printOwnableProperties() const {
+vector<int> Player::printOwnableProperties() const {
     cout << "            Name:                 Num Houses:" << endl;
+    vector<int> options;
     for (unsigned int i = 0; i < ownedProperties.size(); i++){
         if (ownedProperties[i]->getType() == "Ownable"){
+            options.push_back(i);
             cout << "    " << i+1 << " - ";
             printColor("   ", ownedProperties[i]->getID());
             cout << " " << setw(21) << left << ownedProperties[i]->getName() << " " << ownedProperties[i]->getNumHouses() << endl;
         }
     }
-    cout << endl;
-    return;
+    if (options.size() == 0){
+        cout << "You don't have any properties that you can put houses on" << endl;
+    }
+    return options;
 }
 
 void Player::printPropertyInfo() const {

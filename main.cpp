@@ -28,8 +28,8 @@ int main() {
 
         //printGame(players, properties);
 
-        cout << "\nIt's " << currPlayer->getName() << "'s Turn (press ENTER to continue)";
-        cin.ignore();
+        cout << "\nIt's " << currPlayer->getName() << "'s Turn!" << endl;
+        currPlayer->preTurn();
         
         doubles = true;
         doublesCount = 0;
@@ -50,13 +50,16 @@ int main() {
             }
         }
 
+        cout << "Press ENTER to continue:";
+        cin.ignore();
+        cin.ignore();
+
         //increment currPlayer
         currPlayerIndex = (currPlayerIndex + 1) % players.size();
         currPlayer = players[currPlayerIndex];
     }
 
     //cleanup
-    cout << "cleanup cleanup everybody everywhere" << endl;
     for (unsigned int i = 0; i < 40; i++){
         delete properties[i];
     }

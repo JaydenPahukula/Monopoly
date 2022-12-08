@@ -20,6 +20,15 @@ unsigned short int RailroadProperty::getPrice() const {
     return 25 * pow(2, owner->getNumRRs()-1);
 }
 
+vector<int> RailroadProperty::getPriceTable() const {
+    vector<int> priceTable = {150, 0, 0, 25, 50, 100, 200, 0};
+    return priceTable;
+}
+
+int RailroadProperty::getNumHouses() const {
+    return owner->getNumRRs();
+}
+
 void RailroadProperty::act(Player* player){
 
     //if unowned

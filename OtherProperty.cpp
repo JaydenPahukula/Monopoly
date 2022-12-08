@@ -15,6 +15,11 @@ string OtherProperty::getType() const {
     return "Other";
 }
 
+vector<int> OtherProperty::getPriceTable() const {
+    vector<int> priceTable = {-1, -1, -1, -1, -1, -1, -1};
+    return priceTable;
+}
+
 void OtherProperty::act(Player* player){
     switch (location) {
         //GO

@@ -15,6 +15,7 @@ class UtilityProperty final : public Property {
         UtilityProperty(const string NAME);
         virtual string getType() const override;
         virtual void act(Player* player) override;
+        virtual vector<int> getPriceTable() const override;
 };
 
 #endif

@@ -35,45 +35,45 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
     }
     propertiesFile.close();
     properties->at(0) = new OtherProperty(propertyNames[0], 0);
-    properties->at(1) = new OwnableProperty(propertyNames[1], 0, {60, 50, 2, 10, 30, 90, 160, 250});
+    properties->at(1) = new OwnableProperty(propertyNames[1], 128, {60, 50, 2, 10, 30, 90, 160, 250});
     properties->at(2) = new OtherProperty(propertyNames[2], 2);
-    properties->at(3) = new OwnableProperty(propertyNames[3], 0, {60, 50, 4, 20, 60, 180, 320, 450});
+    properties->at(3) = new OwnableProperty(propertyNames[3], 128, {60, 50, 4, 20, 60, 180, 320, 450});
     properties->at(4) = new OtherProperty(propertyNames[4], 4);
     properties->at(5) = new RailroadProperty(propertyNames[5]);
-    properties->at(6) = new OwnableProperty(propertyNames[6], 1, {100, 50, 6, 30, 90, 270, 400, 550});
+    properties->at(6) = new OwnableProperty(propertyNames[6], 176, {100, 50, 6, 30, 90, 270, 400, 550});
     properties->at(7) = new OtherProperty(propertyNames[7], 7);
-    properties->at(8) = new OwnableProperty(propertyNames[8], 1, {100, 50, 6, 30, 90, 270, 400, 550});
-    properties->at(9) = new OwnableProperty(propertyNames[9], 1, {120, 50, 8, 40, 100, 300, 450, 600});
+    properties->at(8) = new OwnableProperty(propertyNames[8], 176, {100, 50, 6, 30, 90, 270, 400, 550});
+    properties->at(9) = new OwnableProperty(propertyNames[9], 176, {120, 50, 8, 40, 100, 300, 450, 600});
     properties->at(10) = new OtherProperty(propertyNames[10], 10);
-    properties->at(11) = new OwnableProperty(propertyNames[11], 2, {140, 100, 10, 50, 150, 450, 625, 750});
+    properties->at(11) = new OwnableProperty(propertyNames[11], 208, {140, 100, 10, 50, 150, 450, 625, 750});
     properties->at(12) = new UtilityProperty(propertyNames[12]);
-    properties->at(13) = new OwnableProperty(propertyNames[13], 2, {140, 100, 10, 50, 150, 450, 625, 750});
-    properties->at(14) = new OwnableProperty(propertyNames[14], 2, {160, 50, 12, 60, 180, 500, 700, 800});
+    properties->at(13) = new OwnableProperty(propertyNames[13], 208, {140, 100, 10, 50, 150, 450, 625, 750});
+    properties->at(14) = new OwnableProperty(propertyNames[14], 208, {160, 50, 12, 60, 180, 500, 700, 800});
     properties->at(15) = new RailroadProperty(propertyNames[15]);
-    properties->at(16) = new OwnableProperty(propertyNames[16], 3, {180, 100, 14, 70, 200, 550, 750, 950});
+    properties->at(16) = new OwnableProperty(propertyNames[16], 196, {180, 100, 14, 70, 200, 550, 750, 950});
     properties->at(17) = new OtherProperty(propertyNames[17], 17);
-    properties->at(18) = new OwnableProperty(propertyNames[18], 3, {180, 100, 14, 70, 200, 550, 750, 950});
-    properties->at(19) = new OwnableProperty(propertyNames[19], 3, {200, 100, 16, 80, 220, 600, 800, 1000});
+    properties->at(18) = new OwnableProperty(propertyNames[18], 196, {180, 100, 14, 70, 200, 550, 750, 950});
+    properties->at(19) = new OwnableProperty(propertyNames[19], 196, {200, 100, 16, 80, 220, 600, 800, 1000});
     properties->at(20) = new OtherProperty(propertyNames[20], 20);
-    properties->at(21) = new OwnableProperty(propertyNames[21], 4, {220, 150, 18, 90, 250, 700, 875, 1050});
+    properties->at(21) = new OwnableProperty(propertyNames[21], 64, {220, 150, 18, 90, 250, 700, 875, 1050});
     properties->at(22) = new OtherProperty(propertyNames[22], 22);
-    properties->at(23) = new OwnableProperty(propertyNames[23], 4, {220, 150, 18, 90, 250, 700, 875, 1050});
-    properties->at(24) = new OwnableProperty(propertyNames[24], 4, {240, 150, 20, 100, 300, 750, 925, 1100});
+    properties->at(23) = new OwnableProperty(propertyNames[23], 64, {220, 150, 18, 90, 250, 700, 875, 1050});
+    properties->at(24) = new OwnableProperty(propertyNames[24], 64, {240, 150, 20, 100, 300, 750, 925, 1100});
     properties->at(25) = new RailroadProperty(propertyNames[25]);
-    properties->at(26) = new OwnableProperty(propertyNames[26], 5, {260, 150, 22, 110, 330, 800, 975, 1150});
-    properties->at(27) = new OwnableProperty(propertyNames[27], 5, {260, 150, 22, 110, 330, 800, 975, 1150});
+    properties->at(26) = new OwnableProperty(propertyNames[26], 96, {260, 150, 22, 110, 330, 800, 975, 1150});
+    properties->at(27) = new OwnableProperty(propertyNames[27], 96, {260, 150, 22, 110, 330, 800, 975, 1150});
     properties->at(28) = new UtilityProperty(propertyNames[28]);
-    properties->at(29) = new OwnableProperty(propertyNames[29], 5, {280, 150, 24, 120, 360, 850, 1025, 1200});
+    properties->at(29) = new OwnableProperty(propertyNames[29], 96, {280, 150, 24, 120, 360, 850, 1025, 1200});
     properties->at(30) = new OtherProperty(propertyNames[30], 30);
-    properties->at(31) = new OwnableProperty(propertyNames[31], 6, {300, 200, 26, 130, 390, 900, 1100, 1275});
-    properties->at(32) = new OwnableProperty(propertyNames[32], 6, {300, 200, 26, 130, 390, 900, 1100, 1275});
+    properties->at(31) = new OwnableProperty(propertyNames[31], 32, {300, 200, 26, 130, 390, 900, 1100, 1275});
+    properties->at(32) = new OwnableProperty(propertyNames[32], 32, {300, 200, 26, 130, 390, 900, 1100, 1275});
     properties->at(33) = new OtherProperty(propertyNames[33], 33);
-    properties->at(34) = new OwnableProperty(propertyNames[34], 6, {320, 200, 28, 150, 450, 1000, 1200, 1400});
+    properties->at(34) = new OwnableProperty(propertyNames[34], 32, {320, 200, 28, 150, 450, 1000, 1200, 1400});
     properties->at(35) = new RailroadProperty(propertyNames[35]);
     properties->at(36) = new OtherProperty(propertyNames[36], 36);
-    properties->at(37) = new OwnableProperty(propertyNames[37], 7, {350, 200, 35, 175, 500, 1100, 1300, 1500});
+    properties->at(37) = new OwnableProperty(propertyNames[37], 16, {350, 200, 35, 175, 500, 1100, 1300, 1500});
     properties->at(38) = new OtherProperty(propertyNames[38], 38);
-    properties->at(39) = new OwnableProperty(propertyNames[39], 7, {400, 200, 50, 200, 600, 1400, 1700, 2000});
+    properties->at(39) = new OwnableProperty(propertyNames[39], 16, {400, 200, 50, 200, 600, 1400, 1700, 2000});
 
     return;
 }
@@ -95,32 +95,36 @@ string center(string input, const unsigned int WIDTH){
     return before + input + after;
 }
 
+vector<string> splitName(const string NAME){
+    unsigned int split = NAME.length();
+    vector<string> name = {"", ""};
+    for (int j = NAME.length(); j >= 0; j--){
+        if (NAME[j] == ' '){
+            split = j;
+            break;
+        }
+        if (isalpha(NAME[j])){
+            name[1] = NAME[j] + name[1];
+        }
+    }
+    if (split == NAME.length()){
+        //one word
+        name[0] = NAME;
+        name[1] = "";
+    } else {
+        for (unsigned int j = 0; j < split; j++){
+            name[0] += NAME[j];
+        }
+    }
+    return name;
+}
+
 void printGame(const vector<Player*> players, const vector<Property*> properties){
     // split up property names
     vector<vector<string>> names(40, {"",""});
     for (int i = 0; i < 40; i++){
         string fullname = properties[i]->getName();
-        unsigned int split = fullname.length();
-        for (int j = fullname.length(); j >= 0; j--){
-            if (fullname[j] == ' '){
-                split = j;
-                break;
-            }
-            if (isalpha(fullname[j])){
-                names[i][1] = fullname[j] + names[i][1];
-            }
-        }
-        if (split == fullname.length()){
-            //one word
-            names[i][0] = fullname;
-            names[i][1] = "";
-        } else {
-            for (unsigned int j = 0; j < split; j++){
-            names[i][0] += fullname[j];
-        }
-        }
-        
-
+        names[i] = splitName(fullname);
     }
 
     string pieces[4] = {"CPU1", "P1", "P2", "ME"};

@@ -16,6 +16,8 @@ class RailroadProperty final : public Property {
         RailroadProperty(const string NAME);
         virtual string getType() const override;
         virtual void act(Player* player) override;
+        virtual vector<int> getPriceTable() const override;
+        virtual int getNumHouses() const override;
 };
 
 #endif

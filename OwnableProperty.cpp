@@ -34,6 +34,10 @@ string OwnableProperty::getType() const {
     return "Ownable";
 }
 
+int OwnableProperty::getNumHouses() const {
+    return numHouses;
+}
+
 void OwnableProperty::act(Player* player){
 
     //if unowned
@@ -79,7 +83,7 @@ void OwnableProperty::act(Player* player){
             if (numHouses >= 5){
                 cout << " (1 hotel)" << endl;
             } else if (numHouses > 0){
-                cout << " (" << numHouses << " houses" << endl;
+                cout << " (" << numHouses << " houses)" << endl;
             } else {
                 cout << endl;
             }
@@ -90,4 +94,12 @@ void OwnableProperty::act(Player* player){
 
 unsigned short int OwnableProperty::getPrice() const {
     return 1;
+}
+
+int OwnableProperty::getID() const {
+    return id;
+};
+
+vector<int> OwnableProperty::getPriceTable() const {
+    return priceTable;
 }

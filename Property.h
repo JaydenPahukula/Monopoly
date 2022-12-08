@@ -4,6 +4,7 @@
 #include "Player.h"
 
 #include <string>
+#include <vector>
 using namespace std;
 
 class Player; // <- because Property and Player refer to each other
@@ -16,7 +17,10 @@ class Property {
         virtual ~Property();
         virtual void act(Player* player) = 0;
         virtual string getType() const = 0;
-        string getName();
+        virtual int getID() const;
+        virtual vector<int> getPriceTable() const = 0;
+        virtual int getNumHouses() const;
+        string getName() const;
 };
 
 #endif

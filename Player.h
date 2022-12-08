@@ -21,8 +21,11 @@ class Player final {
         int balance;
         vector<Property*> ownedProperties;
         bool moveInJail();
+        void printOwnableProperties() const;
+        void printPropertyInfo() const;
     public:
         Player(const string NAME, const bool BOT);
+        void preTurn();
         bool move();
         void goToJail();
         void buy(Property* PROPERTY, const unsigned int PRICE);

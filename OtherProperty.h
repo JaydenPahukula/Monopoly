@@ -14,6 +14,7 @@ class OtherProperty final : public Property {
         OtherProperty(const string NAME, const short int LOCATION);
         virtual string getType() const override;
         virtual void act(Player* player) override;
+        virtual vector<int> getPriceTable() const override;
 };
 
 #endif

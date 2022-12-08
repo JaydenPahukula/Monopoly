@@ -6,6 +6,7 @@
 #include <array>
 #include <cstdlib>
 #include <ctime>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -59,7 +60,7 @@ bool Player::moveInJail(){
 
     //use get out of jail free card
     if (choice == '3'){
-        cout << "Used a 'Get Out of Jail Free' card! (you have " << getOutOfJailCards-1 << "remaining)" << endl;
+        cout << "Used a 'Get Out of Jail Free' card! (you have " << getOutOfJailCards-1 << " remaining)" << endl;
         getOutOfJailCards--;
         inJail = false;
         location = 10;
@@ -91,6 +92,41 @@ bool Player::moveInJail(){
 }
 
 
+void Player::preTurn(){
+    char choice = ' ';
+    while (1){
+        cout << "  What would you like to do?\n  1 - Roll!\n  2 - View properties\n  3 - Buy houses\n  4 - Sell houses\n";
+        if (bot){
+            cout << "  1" << endl;
+            choice = '1';
+        } else {
+            do {
+                cout << "  ";
+                cin >> choice;
+            } while (choice != '1' && choice != '2' && choice != '3' && choice != '4');
+        }
+
+        if (choice == '1'){
+            return;
+        }
+
+        if (choice == '2'){
+            printPropertyInfo();
+        }
+
+        if (choice == '3'){
+            printOwnableProperties();
+        }
+
+        if (choice == '4'){
+            cout << "\n  sell houses" << endl;
+        }
+    }
+
+    return;
+}
+
+
 bool Player::move(){
 
     if (inJail){
@@ -101,6 +137,7 @@ bool Player::move(){
 
     if (!bot){
         cout << "  Press ENTER to roll:";
+        cin.ignore();
         cin.ignore();
     }
     
@@ -186,3 +223,94 @@ bool Player::isBot() const {
     return bot;
 }
 
+void Player::printOwnableProperties() const {
+    cout << "            Name:                 Num Houses:" << endl;
+    for (unsigned int i = 0; i < ownedProperties.size(); i++){
+        if (ownedProperties[i]->getType() == "Ownable"){
+            cout << "    " << i+1 << " - ";
+            printColor("   ", ownedProperties[i]->getID());
+            cout << " " << setw(21) << left << ownedProperties[i]->getName() << " " << ownedProperties[i]->getNumHouses() << endl;
+        }
+    }
+    cout << endl;
+    return;
+}
+
+void Player::printPropertyInfo() const {
+    unsigned short int n = ownedProperties.size();
+    cout << endl << name << "'s properties:";
+    if (n == 0){
+        cout << "\nYou have no properties yet" << endl << endl;
+        return;
+    }
+    vector<vector<string>> names;
+    vector<vector<int>> priceTables;
+    cout << "\n             +";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+        names.push_back(splitName(ownedProperties[i]->getName()));
+        priceTables.push_back(ownedProperties[i]->getPriceTable());
+    }
+    cout << "\n             |";
+    for (unsigned int i = 0; i < n; i++){
+        printColor("            ", ownedProperties[i]->getID());
+        cout << "|";
+    }
+    cout << "\n             |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(names[i][0], 12) << "|";
+    }
+    cout << "\n             |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(names[i][1], 12) << "|";
+    }
+    cout << "\n+------------+";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+    }
+    cout << "\n| num houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(ownedProperties[i]->getNumHouses()), 12) << "|";
+    }
+    cout << "\n+------------+";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+    }
+    cout << "\n|       base |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][2]), 12) << "|";
+    }
+    cout << "\n|    1 house |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][3]), 12) << "|";
+    }
+    cout << "\n|   2 houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][4]), 12) << "|";
+    }
+    cout << "\n|   3 houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][5]), 12) << "|";
+    }
+    cout << "\n|   4 houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][6]), 12) << "|";
+    }
+    cout << "\n|  hotel (5) |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][7]), 12) << "|";
+    }
+    cout << "\n|house price |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][1]), 12) << "|";
+    }
+    cout << "\n|   mortgage |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][0]/2), 12) << "|";
+    }
+    cout << "\n+------------+";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+    }
+    cout << endl << endl;
+}

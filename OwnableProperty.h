@@ -14,12 +14,14 @@ class OwnableProperty final : public Property {
         short int id;
         vector<int> priceTable;
         short int numHouses;
-        bool isMonopoly() const;
         unsigned short int getPrice() const;
     public:
         OwnableProperty(const string NAME, const int ID, const vector<int> TABLE);
         virtual string getType() const override;
         virtual void act(Player* player) override;
+        virtual int getID() const override;
+        virtual vector<int> getPriceTable() const override;
+        virtual int getNumHouses() const override;
 };
 
 #endif

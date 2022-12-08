@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 UtilityProperty::UtilityProperty(const string NAME){
@@ -19,4 +20,9 @@ string UtilityProperty::getType() const {
 void UtilityProperty::act(Player* player){
     cout << "UtilityProperty::act(" << player << ")" << endl;
     return;
+}
+
+vector<int> UtilityProperty::getPriceTable() const {
+    vector<int> priceTable = {-1, -1, -1, -1, -1, -1, -1};
+    return priceTable;
 }

@@ -1,31 +1,15 @@
 
-#include "Player.h"
 #include "OtherProperty.h"
+#include "Player.h"
 
 #include <iostream>
 #include <string>
 using namespace std;
 
+
 OtherProperty::OtherProperty(const string NAME, const short int LOCATION){
     name = NAME;
     location = LOCATION;
-}
-
-string OtherProperty::getType() const {
-    return "Other";
-}
-
-void OtherProperty::sell(){
-    return;
-}
-
-vector<int> OtherProperty::getPriceTable() const {
-    vector<int> priceTable = {-1, -1, -1, -1, -1, -1, -1};
-    return priceTable;
-}
-
-unsigned short int OtherProperty::getNumHouses() const {
-    return -1;
 }
 
 void OtherProperty::act(Player* player){
@@ -75,3 +59,21 @@ void OtherProperty::act(Player* player){
     }
     return;
 }
+
+void OtherProperty::sell(){
+    return;
+}
+
+string OtherProperty::getType() const {
+    return "Other";
+}
+
+vector<int> OtherProperty::getPriceTable() const {
+    vector<int> priceTable = {-1, -1, -1, -1, -1, -1, -1};
+    return priceTable;
+}
+
+unsigned short int OtherProperty::getNumHouses() const {
+    return -1;
+}
+

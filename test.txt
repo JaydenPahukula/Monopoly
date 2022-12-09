@@ -1,82 +1,70 @@
-1  +--------------+----------+----------+----------+----------+----------+----------+----------+----------+----------+--------------+
-2  |     Free     | Kentucky |  Chance  | Indiana  | Illinois |   B&O    | Atlantic | Ventnor  |  Water   |  Marvin  |              |
-3  |              |  Avenue  |    ?     |  Avenue  |  Avenue  | Railroad |  Avenue  |  Avenue  |  Works   | Gardens  |    Go To     |
-4  |              |          |          |          |          |          |          |          |          |          |              |
-5  |              |          |          |          |          |          |          |          |          |          |     Jail     |
-6  |   Parking    |          |          |          |          |          |          |          |          |          |              |
-7  |--------------+----------+----------+----------+----------+----------+----------+----------+----------+----------+--------------|
-8  | New York     |                                                                                                  |     Pacific  |
-9  |  Avenue      |                                                                                                  |     Avenue   |
-10 |              |                                                                                                  |              |
-11 |--------------|                                                                                                  |--------------|
-12 | Tennesee     |                                                                                                  |   N. Carolina|
-13 |  Avenue      |                                                                                                  |     Avenue   |
-14 |              |                                                                                                  |              |
-15 |--------------|          The worlds finest object-oriented board game!                                           |--------------|
-16 |  Community   |               ********************************************************************               |  Community   |
-17 |    Chest     |               #    ___  ___    ___    __  _    ___    ___    ___    _   __  __   #               |    Chest     |
-18 |              |               #   |   \/   |  /   \  |  \| |  /   \  |   \  /   \  | |  \ \/ /   #               |              |
-19 |--------------|               #   | |\  /| | | ( ) | | |\  | | ( ) | |  _/ | ( ) | | |_  \  /    #               |--------------|
-20 | St. James    |               #   |_| \/ |_|  \___/  |_| |_|  \___/  |_|    \___/  |___| /_/     #               |   Pennsylvani|
-21 |   Place      |               #                                                                  #               |     Avenue   |
-22 |              |               ********************************************************************               |              |
-23 |--------------|                                       By Jayden Pahukula                                         |--------------|
-24 | Pennsylvania |                                                                                                  |    Short     |
-25 |   Railroad   |                                                                                                  |     Line     |
-26 |              |                                                                                                  |              |
-27 |--------------|                                                                                                  |--------------|
-28 | Virginia     |                                                                                                  |    Chance    |
-29 |  Avenue      |                                                                                                  |      ?       |
-30 |              |                                                                                                  |              |
-31 |--------------|                                                                                                  |--------------|
-32 |  States      |                                                                                                  |      Park    |
-33 |  Avenue      |                                                                                                  |      Place   |
-34 |              |                                                                                                  |              |
-35 |--------------|                                                                                                  |--------------|
-36 |   Electric   |                                                                                                  |    Luxury    |
-37 |   Company    |                                                                                                  |     Tax      |
-38 |              |                                                                                                  |              |
-39 |--------------|                                                                                                  |--------------|
-40 |St. Charles   |                                                                                                  |    Boardwalk |
-41 |   Place      |                                                                                                  |              |
-42 |              |                                                                                                  |              |
-43 |---+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+--------------|
-44 |   |   Jail   |          |          |  Chance  |          | Reading  |  Income  |          |Community |          |      GO      |
-55 |   |          |Connnectic| Vermont  |    ?     | Oriental | Railroad |   Tax    |  Baltic  |  Chest   |Metirranea|  <---------  |
-56 |   |          |  Avenue  |  Avenue  |          |  Avenue  |          |          |  Avenue  |          |  Avenue  |              |
-57 |   |__________|          |          |          |          |          |          |          |          |          |{CPU1}{P1}{P2}|
-58 |              |          |          |          |          |          |          |          |          |          |              |
-59 +--------------+----------+----------+----------+----------+----------+----------+----------+----------+----------+--------------+
 
-********************************************************************
-#    ___  ___    ___    __  _    ___    ___    ___    _   __  __   #
-#   |   \/   |  /   \  |  \| |  /   \  |   \  /   \  | |  \ \/ /   #
-#   | |\  /| | | ( ) | | |\  | | ( ) | |  _/ | ( ) | | |_  \  /    #
-#   |_| \/ |_|  \___/  |_| |_|  \___/  |_|    \___/  |___| /_/     #
-#                                                                  #
-********************************************************************
+Title:
+   Jayden Pahukula
+   CSCI-200 Section C
+   Monopoly
 
 
+Problem Description:
+      I created Monopoly, where you can play monopoly against up to 3 other computer opponents. The computer
+   players are very simple and play similar to how a monkey might play. The game board is represented in the
+   terminal, and the player is able to make decisions by choosing options from a menu. The user configures their
+   name and number of opponents during setup, and the names of the properties are read in from 'properties.txt',
+   allowing you to play with different editions of monopoly. Everything else including property locations and
+   prices is hard-coded, because that information is consistent from edition to edition. The game is mostly
+   accurate to the real thing, but a few of the more intricate rules have been omitted for the sake of time and
+   simplicity.
 
-Properties:
-            +----------+----------+----------+
-            |          |          |          |          
-            |Connnectic| Vermont  | Oriental |
-            |  Avenue  |  Avenue  |  Avenue  |
-------------+----------+----------+----------+
- num houses |    0     |    1     |
-------------+----------+----------+----------+
-       Rent |    3     |
-    1 house |          |
-   2 houses |
-   3 houses |
-   4 houses |
-      hotel |
-house price |
-   mortgage |
-------------+----------+----------+----------+
 
-Properties:
-          Name:                Num Houses:
-  1 - ||| Connnecticut Avenue   1
+Program Documentation:
+      This program is completely plug & play, there are no required libraries and everything should work out
+   of the box. All the inputs are validated, meaning that even a baby could theoretically play.
+      This program is mostly closed for extension, meaning that it would be hard to add things to it. While I
+   followed the SOLID principles to an extent, certain things wouldn't make sense, for example, there really isn't
+   any need for extension as Monopoly is a pretty rigid game with consistent rules. I tried to make it as modular
+   as possible, but there are a lot of different moving parts and rules that criss-cross each other and it got
+   kind of messy. Here are the computer players' behaviors and known bugs.
 
+      Computer Player Behavior:
+   - Computer players will never buy or sell houses
+   - If in jail, computer players will randomly do one of the following:
+      - Try and roll to get out
+      - Pay $50 to get out
+      - Use a 'get out of jail free' card (if applicable)
+   - Computer players will always buy a property if they can afford it
+
+      Known bugs/rule inaccuracies: (not fixed mostly due to time)
+   - You can put houses on properties that aren't part of a monopoly
+   - Houses don't have to be distributed evenly within a set of properties
+   - Funky things happen if you own more than 9 properties
+   - You can't mortgage properties
+
+
+List Data Structures:
+      I mainly used vectors and static arrays. The turn-based gameplay would've fit a doubly linked list nicely, but
+   I opted for a vector, because I would need to get the size and index into it often. I also chose them for the
+   sake of simplicity.
+
+
+Tests:
+   1. In any menu, if you select an option that doesn't exist, it will wait until you enter a valid option.
+   2. If you try to sell a house on a property that doesn't have any houses on it, the program will let you know
+      and continue.
+   3. If you try and buy a house on a property that already has a hotel on it, the program will let you know and
+      continue.
+   5. When in jail, the program won't give you the option to use a 'get out of jail free card' if you don't have one.
+   4. When it asks you which property you would like to buy or sell a house on, if you give an invalid number, it
+      will ask again.
+
+
+Reflection:
+      Though I was aware that this project would get big and complex, I underestimated how complex it would
+   get. So many different parts interact with each other and it gets extremely complicated. If I could do this
+   project over again, I would do even more to follow SOLID principles and make it even more modular. I thought that
+   creating individual classes for each type of property was overkill, but it was way underkill, and I would have
+   probably made even more classes and interfaces.
+      I also would've handled the input/output differently. I'm not entirely sure how, maybe another class, but the
+   way that I have it now, everything is printed from all over the place. I have couts here and there, and they are
+   all inconsistent and scattered throughout all the files. If I wanted change the way something is worded or the
+   style of a section, I have to scavenge for stray cout commands all over the place, and sometimes I couldn't tell
+   where something was being printed from.

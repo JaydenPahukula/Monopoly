@@ -1,6 +1,6 @@
 
-#include "Player.h"
 #include "OwnableProperty.h"
+#include "Player.h"
 
 #include <iostream>
 #include <string>
@@ -8,15 +8,15 @@
 using namespace std;
 
 /*
-price table guide:
-0 - purchase price
-1 - house price
-2 - base
-3 - 1 house
-4 - 2 houses
-5 - 3 houses
-6 - 4 houses
-7 - hotel
+ * price table guide:
+ * 0 - purchase price
+ * 1 - house price
+ * 2 - base
+ * 3 - 1 house
+ * 4 - 2 houses
+ * 5 - 3 houses
+ * 6 - 4 houses
+ * 7 - hotel
 */
 
 OwnableProperty::OwnableProperty(const string NAME, const int ID, const vector<int> TABLE){
@@ -30,23 +30,8 @@ OwnableProperty::OwnableProperty(const string NAME, const int ID, const vector<i
     numHouses = 0;
 }
 
-void OwnableProperty::sell(){
-    owner = nullptr;
-    numHouses = 0;
-    return;
-}
-
-string OwnableProperty::getType() const {
-    return "Ownable";
-}
-
-unsigned short int OwnableProperty::getNumHouses() const {
-    return numHouses;
-}
-
-void OwnableProperty::changeHouses(const int N){
-    numHouses += N;
-    return;
+unsigned short int OwnableProperty::getPrice() const {
+    return priceTable[numHouses+2];
 }
 
 void OwnableProperty::act(Player* player){
@@ -71,7 +56,8 @@ void OwnableProperty::act(Player* player){
                 } while (choice != 'Y' && choice != 'N');
             }
             
-            if (choice == 'Y'){ //buy
+            //buy property
+            if (choice == 'Y'){
                 owner = player;
                 player->buy(this, priceTable[0]);
                 cout << "    Purchased! (new balance is $" << player->getBalance() << ")" << endl;
@@ -82,10 +68,11 @@ void OwnableProperty::act(Player* player){
 
     //if already owned
     } else {
-        //if player is owner
         if (owner == player){
+            //if player is the owner
             cout << "    You own this property" << endl;
         } else {
+            //else pay the owner
             unsigned short int price = getPrice();
             owner->changeBalance(price);
             player->changeBalance(-price);
@@ -102,8 +89,19 @@ void OwnableProperty::act(Player* player){
     return;
 }
 
-unsigned short int OwnableProperty::getPrice() const {
-    return priceTable[numHouses+2];
+void OwnableProperty::sell(){
+    owner = nullptr;
+    numHouses = 0;
+    return;
+}
+
+void OwnableProperty::changeHouses(const int N){
+    numHouses += N;
+    return;
+}
+
+string OwnableProperty::getType() const {
+    return "Ownable";
 }
 
 int OwnableProperty::getID() const {
@@ -112,4 +110,8 @@ int OwnableProperty::getID() const {
 
 vector<int> OwnableProperty::getPriceTable() const {
     return priceTable;
+}
+
+unsigned short int OwnableProperty::getNumHouses() const {
+    return numHouses;
 }

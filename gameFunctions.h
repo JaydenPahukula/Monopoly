@@ -4,20 +4,28 @@
 #include "Player.h"
 #include "Property.h"
 
+#include <array>
 #include <string>
 #include <vector>
+using namespace std;
 
-std::array<int, 2> roll();
+//sets up the game
+void setup(vector<Player*>* players, vector<Property*>* properties);
 
-void setup(std::vector<Player*>* players, std::vector<Property*>* properties);
+//rolls two die
+array<int, 2> roll();
 
-void printColor(std::string s, int color);
+//prints string in color
+void print_color(string s, int color);
 
-std::string center(std::string input, const unsigned int WIDTH);
+//returns a string centered with given width
+string center(string input, const unsigned int WIDTH);
 
-std::vector<std::string> splitName(const std::string NAME);
+//splits a location name into two parts
+vector<string> split_name(const string NAME);
 
-void printGame(const std::vector<Player*> players, const std::vector<Property*> properties);
+//prints the current game state
+void print_game(const vector<Player*> players, const vector<Property*> properties);
 
 
 #endif

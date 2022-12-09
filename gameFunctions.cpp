@@ -1,25 +1,22 @@
-#include <ctype.h>
+
+#include "gameFunctions.h"
+#include "OtherProperty.h"
+#include "OwnableProperty.h"
+#include "Player.h"
+#include "Property.h"
+#include "RailroadProperty.h"
+#include "UtilityProperty.h"
+
+#include <array>
+#include <ctime>
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <ctime>
 #include <vector>
 #include <windows.h>
-
-#include "gameFunctions.h"
-#include "Player.h"
-#include "Property.h"
-#include "OtherProperty.h"
-#include "RailroadProperty.h"
-#include "UtilityProperty.h"
-#include "OwnableProperty.h"
-
 using namespace std;
 
-array<int, 2> roll(){
-    array<int, 2> r = {(rand()%6)+1,(rand()%6)+1};
-    return r;
-}
+
 
 void setup(vector<Player*>* players, vector<Property*>* properties){
 
@@ -58,6 +55,8 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
         getline(propertiesFile, propertyNames[i]);
     }
     propertiesFile.close();
+
+    //hard code property locations and costs
     properties->at(0) = new OtherProperty(propertyNames[0], 0);
     properties->at(1) = new OwnableProperty(propertyNames[1], 128, {60, 50, 2, 10, 30, 90, 160, 250});
     properties->at(2) = new OtherProperty(propertyNames[2], 2);
@@ -72,7 +71,7 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
     properties->at(11) = new OwnableProperty(propertyNames[11], 208, {140, 100, 10, 50, 150, 450, 625, 750});
     properties->at(12) = new UtilityProperty(propertyNames[12]);
     properties->at(13) = new OwnableProperty(propertyNames[13], 208, {140, 100, 10, 50, 150, 450, 625, 750});
-    properties->at(14) = new OwnableProperty(propertyNames[14], 208, {160, 50, 12, 60, 180, 500, 700, 800});
+    properties->at(14) = new OwnableProperty(propertyNames[14], 208, {160, 100, 12, 60, 180, 500, 700, 800});
     properties->at(15) = new RailroadProperty(propertyNames[15]);
     properties->at(16) = new OwnableProperty(propertyNames[16], 196, {180, 100, 14, 70, 200, 550, 750, 950});
     properties->at(17) = new OtherProperty(propertyNames[17], 17);
@@ -99,60 +98,78 @@ void setup(vector<Player*>* players, vector<Property*>* properties){
     properties->at(38) = new OtherProperty(propertyNames[38], 38);
     properties->at(39) = new OwnableProperty(propertyNames[39], 16, {400, 200, 50, 200, 600, 1400, 1700, 2000});
 
+    //seed random
     srand(time(0));
 
     return;
 }
 
-void printColor(string s="", int color=7){
+array<int, 2> roll(){
+    array<int, 2> r = {(rand()%6)+1,(rand()%6)+1};
+    return r;
+}
+
+void print_color(string s="", int color=7){
+    //set terminal color to given color
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+    //print string
     cout << s;
+    //reset terminal to default color
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
     return;
 }
 
 string center(string input, const unsigned int WIDTH){
+    //truncate string if too big
     if (input.size() > WIDTH){
         input = input.substr(0, WIDTH);
     }
+    //calculate new string
     int space = WIDTH - input.size();
     string before(int(space/2), ' ');
     string after((space/2 + (space&1)), ' ');
     return before + input + after;
 }
 
-vector<string> splitName(const string NAME){
+vector<string> split_name(const string NAME){
     unsigned int split = NAME.length();
     vector<string> name = {"", ""};
+
+    //look through name backwards for the last ' ' in the name
     for (int j = NAME.length(); j >= 0; j--){
         if (NAME[j] == ' '){
             split = j;
             break;
         }
+        //add passed chars to last name
         if (isalpha(NAME[j])){
             name[1] = NAME[j] + name[1];
         }
     }
+    //if full name is one word
     if (split == NAME.length()){
-        //one word
         name[0] = NAME;
         name[1] = "";
+    //else add the rest of the chars to the first name
     } else {
         for (unsigned int j = 0; j < split; j++){
             name[0] += NAME[j];
         }
     }
+
     return name;
 }
 
-void printGame(const vector<Player*> players, const vector<Property*> properties){
-    // split up property names
+void print_game(const vector<Player*> players, const vector<Property*> properties){
+
+    //split up property names
     vector<vector<string>> names(40, {"",""});
     for (int i = 0; i < 40; i++){
         string fullname = properties[i]->getName();
-        names[i] = splitName(fullname);
+        names[i] = split_name(fullname);
     }
 
+    //find where all players are
     vector<string> locations(41, "");
     for (unsigned int i = 0; i < players.size(); i++){
         int l = players[i]->getLocation();
@@ -162,6 +179,7 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
         locations[l] += "{" + players[i]->getName() + "}";
     }
     
+    //print the game board (this gets ugly)
     //row 1
     cout << "1  +--------------+----------+----------+----------+----------+----------+----------+----------+----------+----------+--------------+" << endl;
     //row 2
@@ -180,49 +198,49 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
     cout << "5  |              |          |" << center(locations[22],10) << "|          |          |" << center(locations[25],10)
         << "|          |          |" << center(locations[28],10) << "|          |" << center(names[30][1],14) << "|" << endl;
     //row 6
-    cout << "6  |" << center(names[20][1],14) << "|"; printColor("          ", 64); cout << "|          |"; printColor("          ", 64);
-    cout << "|"; printColor("          ", 64); cout << "|          |"; printColor("          ", 96); cout << "|"; printColor("          ", 96);
-    cout << "|          |"; printColor("          ", 96); cout << "|              |" << endl;
+    cout << "6  |" << center(names[20][1],14) << "|"; print_color("          ", 64); cout << "|          |"; print_color("          ", 64);
+    cout << "|"; print_color("          ", 64); cout << "|          |"; print_color("          ", 96); cout << "|"; print_color("          ", 96);
+    cout << "|          |"; print_color("          ", 96); cout << "|              |" << endl;
     //row 7
     cout << "7  |--------------+----------+----------+----------+----------+----------+----------+----------+----------+----------+--------------|" << endl;
     //row 8
     cout << "8  |" << center(names[19][0],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|                                                                                                  |";
-    printColor("   ", 32); cout << center(names[31][0],11) << "|" << endl;
+    print_color("   ", 32); cout << center(names[31][0],11) << "|" << endl;
     //row 9
     cout << "9  |" << center(names[19][1],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|                                                                                                  |";
-    printColor("   ", 32);
+    print_color("   ", 32);
     cout << center(names[31][1],11) << "|" << endl;
     //row 10
     cout << "10 |" << center(locations[19],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|                                                                                                  |";
-    printColor("   ", 32);
+    print_color("   ", 32);
     cout << center(locations[31],11) << "|" << endl;
     //row 11
     cout << "11 |--------------|                                                                                                  |--------------|" << endl;
     //row 12
     cout << "12 |" << center(names[18][0],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|                                                                                                  |";
-    printColor("   ", 32); cout << center(names[32][0],11) << "|" << endl;
+    print_color("   ", 32); cout << center(names[32][0],11) << "|" << endl;
     //row 13
     cout << "13 |" << center(names[18][1],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|                                                                                                  |";
-    printColor("   ", 32);
+    print_color("   ", 32);
     cout << center(names[32][1],11) << "|" << endl;
     //row 14
     cout << "14 |" << center(locations[18],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|                                                                                                  |";
-    printColor("   ", 32);
+    print_color("   ", 32);
     cout << center(locations[32],11) << "|" << endl;
     //row 15
-    cout << "15 |--------------|          America's favorite object-oriented board game!                                             |--------------|" << endl;
+    cout << "15 |--------------|          America's favorite object-oriented board game!                                          |--------------|" << endl;
     //row 16
     cout << "16 |" << center(names[17][0], 14);
     cout << "|               ********************************************************************               |";
@@ -239,20 +257,20 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
     cout << "19 |--------------|               #   | |\\  /| | | ( ) | | |\\  | | ( ) | |  _/ | ( ) | | |_  \\  /    #               |--------------|" << endl;
     //row 20
     cout << "20 |" << center(names[16][0],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|               #   |_| \\/ |_|  \\___/  |_| |_|  \\___/  |_|    \\___/  |___| /_/     #               |";
-    printColor("   ", 32); cout << center(names[34][0],11) << "|" << endl;
+    print_color("   ", 32); cout << center(names[34][0],11) << "|" << endl;
     //row 21
     cout << "21 |" << center(names[16][1],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|               #                                                                  #               |";
-    printColor("   ", 32);
+    print_color("   ", 32);
     cout << center(names[34][1],11) << "|" << endl;
     //row 22
     cout << "22 |" << center(locations[16],11);
-    printColor("   ", 196);
+    print_color("   ", 196);
     cout << "|               ********************************************************************               |";
-    printColor("   ", 32);
+    print_color("   ", 32);
     cout << center(locations[34],11) << "|" << endl;
     //row 23
     cout << "23 |--------------|                                       By Jayden Pahukula                                         |--------------|" << endl;
@@ -272,34 +290,34 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
     cout << "27 |--------------|                                                                                                  |--------------|" << endl;
     //row 28
     cout << "28 |" << center(names[14][0],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |" << center(names[36][0],14) << "|" << endl;
     //row 29
     cout << "29 |" << center(names[14][1],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |      ?       |" << endl;
     //row 30
     cout << "30 |" << center(locations[14],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |" << center(locations[36],14) << "|" << endl;
     //row 31
     cout << "31 |--------------|                                                                                                  |--------------|" << endl;
     //row 32
     cout << "32 |" << center(names[13][0],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |";
-    printColor("   ", 16); cout << center(names[37][0],11) << "|" << endl;
+    print_color("   ", 16); cout << center(names[37][0],11) << "|" << endl;
     //row 33
     cout << "33 |" << center(names[13][1],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |";
-    printColor("   ", 16);
+    print_color("   ", 16);
     cout << center(names[37][1],11) << "|" << endl;
     //row 34
     cout << "34 |" << center(locations[13],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |";
-    printColor("   ", 16);
+    print_color("   ", 16);
     cout << center(locations[37],11) << "|" << endl;
     //row 35
     cout << "35 |--------------|                                                                                                  |--------------|" << endl;
@@ -319,27 +337,27 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
     cout << "39 |--------------|                                                                                                  |--------------|" << endl;
     //row 40
     cout << "40 |" << center(names[11][0],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |";
-    printColor("   ", 16); cout << center(names[39][0],11) << "|" << endl;
+    print_color("   ", 16); cout << center(names[39][0],11) << "|" << endl;
     //row 41
     cout << "41 |" << center(names[11][1],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |";
-    printColor("   ", 16);
+    print_color("   ", 16);
     cout << center(names[39][1],11) << "|" << endl;
     //row 42
     cout << "42 |" << center(locations[11],11);
-    printColor("   ", 208);
+    print_color("   ", 208);
     cout << "|                                                                                                  |";
-    printColor("   ", 16);
+    print_color("   ", 16);
     cout << center(locations[39],11) << "|" << endl;
     //row 43
     cout << "43 |---+----------+----------+----------+----------+----------+----------+----------+----------+----------+----------+--------------|" << endl;
     //row 44
-    cout << "44 |   |   Jail   |"; printColor("          ", 176); cout << "|"; printColor("          ", 176); cout << "|" << center(names[7][0],10) << "|"; 
-    printColor("          ", 176); cout << "|" << center(names[5][0],10) << "|" << center(names[4][0],10) << "|"; printColor("          ", 128);
-    cout << "|" << center(names[2][0],10) << "|"; printColor("          ", 128); cout << "|" << center(names[0][0],14) << "|" << endl;
+    cout << "44 |   |   Jail   |"; print_color("          ", 176); cout << "|"; print_color("          ", 176); cout << "|" << center(names[7][0],10) << "|"; 
+    print_color("          ", 176); cout << "|" << center(names[5][0],10) << "|" << center(names[4][0],10) << "|"; print_color("          ", 128);
+    cout << "|" << center(names[2][0],10) << "|"; print_color("          ", 128); cout << "|" << center(names[0][0],14) << "|" << endl;
     //row 55
     cout << "55 |   |          |" << center(names[9][0],10) << "|"  << center(names[8][0],10) << "|    ?     |" << center(names[6][0],10) << "|"
         << center(names[5][1],10) << "|" << center(names[4][1],10) << "|" << center(names[3][0],10) << "|" << center(names[2][1],10) << "|"

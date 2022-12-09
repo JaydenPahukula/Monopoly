@@ -1,7 +1,7 @@
 
+#include "gameFunctions.h"
 #include "Player.h"
 #include "Property.h"
-#include "gameFunctions.h"
 
 #include <array>
 #include <iomanip>
@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 using namespace std;
+
 
 Player::Player(const string NAME, const bool BOT){
     name = NAME;
@@ -20,74 +21,9 @@ Player::Player(const string NAME, const bool BOT){
     balance = 1500;
 }
 
-bool Player::resolveDebt(){
-    char choice = ' ';
-    cout << "    You are $" << -balance << " in debt. What would you like to do?\n      1 - Sell a house\n      2 - Go bankrupt" << endl;
-        if (bot){
-            cout << "      2" << endl;
-            choice = '2';
-        } else {
-            do {
-                cout << "      ";
-                cin >> choice;
-                cin.ignore();
-            } while (choice != '1' && choice != '2');
-        }
 
-        //go bankrupt
-        if (choice == '2'){
-            for (unsigned int i = 0; i < ownedProperties.size(); i++){
-                ownedProperties[i]->sell();
-            }
-            ownedProperties.clear();
-            return false;
-        }
 
-        //sell a house
-        if (choice == '1'){
-
-            //determine which property to sell
-            cout << "\n    Which property?" << endl;
-            char propertyChoice = ' ';
-            vector<int> options = printOwnableProperties();
-            if (options.size() == 0){
-                cout << endl;
-                return true;
-            }
-            bool done = false;
-            while (1){
-                cout << "    ";
-                cin >> propertyChoice;
-                cin.ignore();
-                for (unsigned int i = 0; i < options.size(); i++){
-                    if (int(propertyChoice-'1') == options[i]){
-                        done = true;
-                        break;
-                    }
-                }
-                if (done){ break; }
-            }
-            int property = int(propertyChoice-'1');
-
-            //check if property has houses
-            if (ownedProperties[property]->getNumHouses() <= 0){
-                cout << "    This property doesn't have any houses to sell" << endl << endl;
-                return true;
-            }
-
-            //sell house
-            balance += ownedProperties[property]->getPriceTable()[1];
-            ownedProperties[property]->changeHouses(-1);
-            cout << "    Sold 1 house on " << ownedProperties[property]->getName() << " for $" << ownedProperties[property]->getPriceTable()[1] << endl << endl;
-        }
-        return true;
-}
-
-void Player::goToJail(){
-    inJail = true;
-    location = 40;
-    return;
-}
+// private functions --------------------------
 
 bool Player::moveInJail(){
 
@@ -161,9 +97,122 @@ bool Player::moveInJail(){
     }
 }
 
+vector<int> Player::printOwnableProperties() const {
+    cout << "            Name:                 Num Houses:" << endl;
+    vector<int> options;
+    for (unsigned int i = 0; i < ownedProperties.size(); i++){
+        if (ownedProperties[i]->getType() == "Ownable"){
+            options.push_back(i);
+            cout << "    " << i+1 << " - ";
+            print_color("   ", ownedProperties[i]->getID());
+            cout << " " << setw(21) << left << ownedProperties[i]->getName() << " " << ownedProperties[i]->getNumHouses() << endl;
+        }
+    }
+    if (options.size() == 0){
+        cout << "You don't have any properties that you can put houses on" << endl;
+    }
+    return options;
+}
+
+void Player::printPropertyInfo() const {
+
+    unsigned short int n = ownedProperties.size();
+    cout << endl << name << "'s properties:";
+
+    //if player doesn't have any properties
+    if (n == 0){
+        cout << "\nYou don't have any properties yet\n\nPress ENTER to continue:";
+        cin.ignore();
+        cout << endl;
+        return;
+    }
+
+    //print all properties and price info
+    vector<vector<string>> names;
+    vector<vector<int>> priceTables;
+    cout << "\n             +";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+        names.push_back(split_name(ownedProperties[i]->getName()));
+        priceTables.push_back(ownedProperties[i]->getPriceTable());
+    }
+    cout << "\n             |";
+    for (unsigned int i = 0; i < n; i++){
+        print_color("            ", ownedProperties[i]->getID());
+        cout << "|";
+    }
+    cout << "\n             |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(names[i][0], 12) << "|";
+    }
+    cout << "\n             |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(names[i][1], 12) << "|";
+    }
+    cout << "\n+------------+";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+    }
+    cout << "\n| num houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(ownedProperties[i]->getNumHouses()), 12) << "|";
+    }
+    cout << "\n+------------+";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+    }
+    cout << "\n|       base |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][2]), 12) << "|";
+    }
+    cout << "\n|    1 house |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][3]), 12) << "|";
+    }
+    cout << "\n|   2 houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][4]), 12) << "|";
+    }
+    cout << "\n|   3 houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][5]), 12) << "|";
+    }
+    cout << "\n|   4 houses |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][6]), 12) << "|";
+    }
+    cout << "\n|  hotel (5) |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][7]), 12) << "|";
+    }
+    cout << "\n|house price |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][1]), 12) << "|";
+    }
+    cout << "\n|   mortgage |";
+    for (unsigned int i = 0; i < n; i++){
+        cout << center(to_string(priceTables[i][0]/2), 12) << "|";
+    }
+    cout << "\n+------------+";
+    for (unsigned int i = 0; i < n; i++){
+        cout << "------------+";
+    }
+    cout << "\n\nPress ENTER to continue:";
+    cin.ignore();
+    cout << endl;
+    return;
+}
+
+
+
+// public functions --------------------------
+
 void Player::preTurn(){
+
     char choice = ' ';
     while (1){
+
+        //get user input
         cout << "  What would you like to do? (you have $" << balance << ")\n  1 - Start your turn\n  2 - View owned properties\n  3 - Buy a house\n  4 - Sell a house\n";
         if (bot){
             cout << "  1" << endl;
@@ -184,6 +233,8 @@ void Player::preTurn(){
 
         //buy/sell house
         if (choice == '3' || choice == '4'){
+
+            //determine which property to buy/sell from
             cout << "\n  Which property?" << endl;
             char propertyChoice = ' ';
             vector<int> options = printOwnableProperties();
@@ -273,6 +324,7 @@ void Player::preTurn(){
 
 bool Player::move(){
 
+    //if in jail
     if (inJail){
         if (!moveInJail()){
             return false;
@@ -284,7 +336,6 @@ bool Player::move(){
         cin.ignore();
     }
     
-
     //roll
     array<int, 2> r = roll();
     cout << "  Rolled " << r[0] << " and " << r[1];
@@ -308,6 +359,84 @@ bool Player::move(){
     }
 
     return doubles;
+}
+
+void Player::goToJail(){
+    inJail = true;
+    location = 40;
+    return;
+}
+
+bool Player::resolveDebt(){
+
+    //get user input
+    char choice = ' ';
+    cout << "    You are $" << -balance << " in debt. What would you like to do?\n      1 - Sell a house\n      2 - Go bankrupt" << endl;
+    if (bot){
+        //bots will always choose to go bankrupt
+        cout << "      2" << endl;
+        choice = '2';
+    } else {
+        do {
+            cout << "      ";
+            cin >> choice;
+            cin.ignore();
+        } while (choice != '1' && choice != '2');
+    }
+
+    //go bankrupt
+    if (choice == '2'){
+        for (unsigned int i = 0; i < ownedProperties.size(); i++){
+            ownedProperties[i]->sell();
+        }
+        ownedProperties.clear();
+        return false;
+    }
+
+    //sell a house
+    if (choice == '1'){
+
+        //determine which property to sell
+        cout << "\n    Which property?" << endl;
+        char propertyChoice = ' ';
+        vector<int> options = printOwnableProperties();
+        if (options.size() == 0){
+            cout << endl;
+            return true;
+        }
+        bool done = false;
+        while (1){
+            cout << "    ";
+            cin >> propertyChoice;
+            cin.ignore();
+            for (unsigned int i = 0; i < options.size(); i++){
+                if (int(propertyChoice-'1') == options[i]){
+                    done = true;
+                    break;
+                }
+            }
+            if (done){ break; }
+        }
+        int property = int(propertyChoice-'1');
+
+        //check if property has houses
+        if (ownedProperties[property]->getNumHouses() <= 0){
+            cout << "    This property doesn't have any houses to sell" << endl << endl;
+            return true;
+        }
+
+        //sell house
+        balance += ownedProperties[property]->getPriceTable()[1];
+        ownedProperties[property]->changeHouses(-1);
+        cout << "    Sold 1 house on " << ownedProperties[property]->getName() << " for $" << ownedProperties[property]->getPriceTable()[1] << endl << endl;
+    }
+    return true;
+}
+
+void Player::buy(Property* PROPERTY, const unsigned int PRICE){
+    balance -= PRICE;
+    ownedProperties.push_back(PROPERTY);
+    return;
 }
 
 void Player::drawChanceCard(){
@@ -492,14 +621,21 @@ void Player::drawCCCard(){
     return;
 }
 
-void Player::buy(Property* PROPERTY, const unsigned int PRICE){
-    balance -= PRICE;
-    ownedProperties.push_back(PROPERTY);
-}
-
 void Player::changeBalance(const int AMOUNT){
     balance += AMOUNT;
     return;
+}
+
+
+
+// getters -----------------------------------
+
+bool Player::isInJail() const {
+    return inJail;
+}
+
+bool Player::isBot() const {
+    return bot;
 }
 
 int Player::getBalance() const {
@@ -534,111 +670,3 @@ unsigned short int Player::getNumUtilities() const {
     return count;
 }
 
-bool Player::isInJail() const {
-    return inJail;
-}
-
-bool Player::isBot() const {
-    return bot;
-}
-
-vector<int> Player::printOwnableProperties() const {
-    cout << "            Name:                 Num Houses:" << endl;
-    vector<int> options;
-    for (unsigned int i = 0; i < ownedProperties.size(); i++){
-        if (ownedProperties[i]->getType() == "Ownable"){
-            options.push_back(i);
-            cout << "    " << i+1 << " - ";
-            printColor("   ", ownedProperties[i]->getID());
-            cout << " " << setw(21) << left << ownedProperties[i]->getName() << " " << ownedProperties[i]->getNumHouses() << endl;
-        }
-    }
-    if (options.size() == 0){
-        cout << "You don't have any properties that you can put houses on" << endl;
-    }
-    return options;
-}
-
-void Player::printPropertyInfo() const {
-    unsigned short int n = ownedProperties.size();
-    cout << endl << name << "'s properties:";
-    if (n == 0){
-        cout << "\nYou don't have any properties yet\n\nPress ENTER to continue:";
-        cin.ignore();
-        cout << endl;
-        return;
-    }
-    vector<vector<string>> names;
-    vector<vector<int>> priceTables;
-    cout << "\n             +";
-    for (unsigned int i = 0; i < n; i++){
-        cout << "------------+";
-        names.push_back(splitName(ownedProperties[i]->getName()));
-        priceTables.push_back(ownedProperties[i]->getPriceTable());
-    }
-    cout << "\n             |";
-    for (unsigned int i = 0; i < n; i++){
-        printColor("            ", ownedProperties[i]->getID());
-        cout << "|";
-    }
-    cout << "\n             |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(names[i][0], 12) << "|";
-    }
-    cout << "\n             |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(names[i][1], 12) << "|";
-    }
-    cout << "\n+------------+";
-    for (unsigned int i = 0; i < n; i++){
-        cout << "------------+";
-    }
-    cout << "\n| num houses |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(ownedProperties[i]->getNumHouses()), 12) << "|";
-    }
-    cout << "\n+------------+";
-    for (unsigned int i = 0; i < n; i++){
-        cout << "------------+";
-    }
-    cout << "\n|       base |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][2]), 12) << "|";
-    }
-    cout << "\n|    1 house |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][3]), 12) << "|";
-    }
-    cout << "\n|   2 houses |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][4]), 12) << "|";
-    }
-    cout << "\n|   3 houses |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][5]), 12) << "|";
-    }
-    cout << "\n|   4 houses |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][6]), 12) << "|";
-    }
-    cout << "\n|  hotel (5) |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][7]), 12) << "|";
-    }
-    cout << "\n|house price |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][1]), 12) << "|";
-    }
-    cout << "\n|   mortgage |";
-    for (unsigned int i = 0; i < n; i++){
-        cout << center(to_string(priceTables[i][0]/2), 12) << "|";
-    }
-    cout << "\n+------------+";
-    for (unsigned int i = 0; i < n; i++){
-        cout << "------------+";
-    }
-    cout << "\n\nPress ENTER to continue:";
-    cin.ignore();
-    cout << endl;
-    return;
-}

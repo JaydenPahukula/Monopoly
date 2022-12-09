@@ -7,16 +7,22 @@
 #include <string>
 using namespace std;
 
+
 class OtherProperty final : public Property {
     private:
         short int location;
     public:
         OtherProperty(const string NAME, const short int LOCATION);
-        virtual string getType() const override;
+        //perform action upon landing on this property
         virtual void act(Player* player) override;
+        //sell this property
+        virtual void sell() override;
+
+        //getters
+        virtual string getType() const override;
         virtual vector<int> getPriceTable() const override;
         virtual unsigned short int getNumHouses() const override;
-        virtual void sell() override;
 };
+
 
 #endif

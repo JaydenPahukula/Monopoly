@@ -1,29 +1,17 @@
 
+#include "gameFunctions.h"
 #include "Player.h"
 #include "UtilityProperty.h"
-#include "gameFunctions.h"
 
 #include <iostream>
 #include <string>
 #include <vector>
 using namespace std;
 
+
 UtilityProperty::UtilityProperty(const string NAME){
     name = NAME;
     owner = nullptr;
-}
-
-string UtilityProperty::getType() const {
-    return "Utility";
-}
-
-void UtilityProperty::sell(){
-    owner = nullptr;
-    return;
-}
-
-unsigned short int UtilityProperty::getNumHouses() const {
-    return owner->getNumUtilities();
 }
 
 void UtilityProperty::act(Player* player){
@@ -31,8 +19,8 @@ void UtilityProperty::act(Player* player){
     if (owner == nullptr){
         char choice = '0';
         cout << "    This property is unowned,";
-        if (player->getBalance() >= PURCHASEPRICE){
-            cout << " would you like to buy it for $" << PURCHASEPRICE << "? (current balance is: $" << player->getBalance() << ") Y/N:\n";
+        if (player->getBalance() >= PURCHASE_PRICE){
+            cout << " would you like to buy it for $" << PURCHASE_PRICE << "? (current balance is: $" << player->getBalance() << ") Y/N:\n";
 
             //bot player will always buy
             if(player->isBot()){ 
@@ -47,9 +35,10 @@ void UtilityProperty::act(Player* player){
                 } while (choice != 'Y' && choice != 'N');
             }
             
-            if (choice == 'Y'){ //buy
+            //buy property
+            if (choice == 'Y'){
                 owner = player;
-                player->buy(this, PURCHASEPRICE);
+                player->buy(this, PURCHASE_PRICE);
                 cout << "    Purchased! (new balance is $" << player->getBalance() << ")" << endl;
             }
         } else {
@@ -58,10 +47,11 @@ void UtilityProperty::act(Player* player){
 
     //if already owned
     } else {
-        //if player is owner
         if (owner == player){
+            //if player is owner
             cout << "    You own this property" << endl;
         } else {
+            //else pay the owner
             unsigned short int numUtilities = owner->getNumUtilities();
             unsigned short int x;
             if (numUtilities == 1){ x = 4; }
@@ -81,7 +71,20 @@ void UtilityProperty::act(Player* player){
     return;
 }
 
+void UtilityProperty::sell(){
+    owner = nullptr;
+    return;
+}
+
+string UtilityProperty::getType() const {
+    return "Utility";
+}
+
 vector<int> UtilityProperty::getPriceTable() const {
-    vector<int> priceTable = {PURCHASEPRICE, 0, 0, 4, 10, 0, 0};
+    vector<int> priceTable = {PURCHASE_PRICE, 0, 0, 4, 10, 0, 0};
     return priceTable;
+}
+
+unsigned short int UtilityProperty::getNumHouses() const {
+    return owner->getNumUtilities();
 }

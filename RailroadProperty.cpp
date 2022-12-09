@@ -2,36 +2,19 @@
 #include "Player.h"
 #include "RailroadProperty.h"
 
-#include <math.h>
 #include <iostream>
+#include <math.h>
 #include <string>
 using namespace std;
+
 
 RailroadProperty::RailroadProperty(const string NAME){
     name = NAME;
     owner = nullptr;
 }
 
-string RailroadProperty::getType() const {
-    return "Railroad";
-}
-
-void RailroadProperty::sell(){
-    owner = nullptr;
-    return;
-}
-
 unsigned short int RailroadProperty::getPrice() const {
     return 25 * pow(2, owner->getNumRRs()-1);
-}
-
-vector<int> RailroadProperty::getPriceTable() const {
-    vector<int> priceTable = {PURCHASEPRICE, 0, 0, 25, 50, 100, 200, 0};
-    return priceTable;
-}
-
-unsigned short int RailroadProperty::getNumHouses() const {
-    return owner->getNumRRs();
 }
 
 void RailroadProperty::act(Player* player){
@@ -40,8 +23,8 @@ void RailroadProperty::act(Player* player){
     if (owner == nullptr){
         char choice = '0';
         cout << "    This property is unowned,";
-        if (player->getBalance() >= PURCHASEPRICE){
-            cout << " would you like to buy it for $" << PURCHASEPRICE << "? (current balance is: $" << player->getBalance() << ") Y/N:\n";
+        if (player->getBalance() >= PURCHASE_PRICE){
+            cout << " would you like to buy it for $" << PURCHASE_PRICE << "? (current balance is: $" << player->getBalance() << ") Y/N:\n";
 
             //bot player will always buy
             if(player->isBot()){ 
@@ -56,9 +39,10 @@ void RailroadProperty::act(Player* player){
                 } while (choice != 'Y' && choice != 'N');
             }
             
-            if (choice == 'Y'){ //buy
+            //buy property
+            if (choice == 'Y'){
                 owner = player;
-                player->buy(this, PURCHASEPRICE);
+                player->buy(this, PURCHASE_PRICE);
                 cout << "    Purchased! (new balance is $" << player->getBalance() << ")" << endl;
             }
         } else {
@@ -67,10 +51,11 @@ void RailroadProperty::act(Player* player){
 
     //if already owned
     } else {
-        //if player is owner
         if (owner == player){
+            //if player is owner
             cout << "    You own this property" << endl;
         } else {
+            //else pay the owner
             unsigned short int price = getPrice();
             owner->changeBalance(price);
             player->changeBalance(-price);
@@ -80,3 +65,23 @@ void RailroadProperty::act(Player* player){
     }
     return;
 }
+
+void RailroadProperty::sell(){
+    owner = nullptr;
+    return;
+}
+
+string RailroadProperty::getType() const {
+    return "Railroad";
+}
+
+vector<int> RailroadProperty::getPriceTable() const {
+    vector<int> priceTable = {PURCHASE_PRICE, 0, 0, 25, 50, 100, 200, 0};
+    return priceTable;
+}
+
+unsigned short int RailroadProperty::getNumHouses() const {
+    return owner->getNumRRs();
+}
+
+

@@ -1,3 +1,13 @@
+/* CSCI 200: Final Project
+ *
+ * Author: Jayden Pahukula
+ * Resources used:
+ *
+ * Description:
+ * Play monopoly with up to 3 computer
+ * opponents!
+ * 
+ */
 
 #include "Player.h"
 #include "Property.h"
@@ -6,10 +16,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <typeinfo>
 using namespace std;
-
-
 
 
 int main() {
@@ -17,28 +24,36 @@ int main() {
     vector<Player*> players;
     vector<Property*> properties(41, nullptr);
     
-    
+
+    //set up the game
     setup(&players, &properties);
 
+
+    //main gameplay loop
     bool doubles;
     unsigned short int doublesCount;
     short unsigned int currPlayerIndex = 0;
     Player* currPlayer = players[0];
     while (1){
 
+        //win condition
         if (players.size() == 1){
-            cout << "\n    --==##  " << players[0]->getName() << " wins!  ##==--" << endl << endl;
+            cout << "\n     --==##  " << players[0]->getName() << " wins!  ##==--" << endl << endl;
             break;
         }
 
-        printGame(players, properties);
+        //print game board
+        print_game(players, properties);
 
         cout << "\nIts " << currPlayer->getName() << "'s Turn! (press ENTER to continue)";
         cin.ignore();
+
+        //do any pre-turn actions (bots cannot do this)
         if (!currPlayer->isBot()){
             currPlayer->preTurn();
         }
         
+        //take turn
         doubles = true;
         doublesCount = 0;
         while (doubles){
@@ -81,7 +96,7 @@ int main() {
         cin.ignore();
         cout << endl;
 
-        //increment currPlayer
+        //increment current player
         currPlayerIndex = (currPlayerIndex + 1) % players.size();
         currPlayer = players[currPlayerIndex];
     }

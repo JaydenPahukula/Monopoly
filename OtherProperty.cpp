@@ -15,6 +15,10 @@ string OtherProperty::getType() const {
     return "Other";
 }
 
+void OtherProperty::sell(){
+    return;
+}
+
 vector<int> OtherProperty::getPriceTable() const {
     vector<int> priceTable = {-1, -1, -1, -1, -1, -1, -1};
     return priceTable;
@@ -33,7 +37,8 @@ void OtherProperty::act(Player* player){
         case 2:
         case 17:
         case 33:
-            cout << "    Drawing CC..." << endl;
+            cout << "    Drawing Community Chest Card..." << endl;
+            player->drawCCCard();
             break;
         //Income Tax
         case 4:
@@ -44,7 +49,8 @@ void OtherProperty::act(Player* player){
         case 7:
         case 22:
         case 36:
-            cout << "    Drawing Chance..." << endl;
+            cout << "    Drawing Chance Card..." << endl;
+            player->drawChanceCard();
             break;
         case 10:
             cout << "    Just visiting!" << endl;

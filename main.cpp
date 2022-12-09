@@ -14,7 +14,7 @@ using namespace std;
 
 int main() {
 
-    vector<Player*> players(3, nullptr);
+    vector<Player*> players(2, nullptr);
     vector<Property*> properties(41, nullptr);
     
     
@@ -26,7 +26,12 @@ int main() {
     Player* currPlayer = players[0];
     while (1){
 
-        //printGame(players, properties);
+        if (players.size() == 1){
+            cout << "\n    --==##  " << players[0]->getName() << " wins!  ##==--" << endl << endl;
+            break;
+        }
+
+        printGame(players, properties);
 
         cout << "\nIt's " << currPlayer->getName() << "'s Turn! (press ENTER to continue)";
         cin.ignore();
@@ -53,17 +58,41 @@ int main() {
             }
         }
 
+        //resolve any debt
+        if (currPlayer->getBalance() < 0){
+            cout << "\n  Uh oh! You are in debt!" << endl;
+            while(currPlayer->getBalance() < 0){
+                //if player goes bankrupt
+                if (!currPlayer->resolveDebt()){
+                    cout << "    You went bankrupt! Thanks for playing!" << endl;
+                    delete currPlayer;
+                    currPlayer = nullptr;
+                    players.erase(players.begin() + currPlayerIndex);
+                    currPlayerIndex -= 1;
+                    break;
+                }
+            }
+            if (currPlayer != nullptr){
+                cout << "  Hooray! Your current balance is $" << currPlayer->getBalance() << endl;
+            }
+        }
+
         cout << "\nPress ENTER to continue:";
         cin.ignore();
+        cout << endl;
 
         //increment currPlayer
         currPlayerIndex = (currPlayerIndex + 1) % players.size();
         currPlayer = players[currPlayerIndex];
     }
 
+
     //cleanup
-    for (unsigned int i = 0; i < 40; i++){
+    for (int i = 0; i < 40; i++){
         delete properties[i];
+    }
+    for (unsigned int i = 0; i < players.size(); i++){
+        delete players[i];
     }
     return 0;
 }

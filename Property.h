@@ -20,6 +20,7 @@ class Property {
         virtual int getID() const;
         virtual vector<int> getPriceTable() const = 0;
         virtual unsigned short int getNumHouses() const = 0;
+        virtual void sell() = 0;
         string getName() const;
         virtual void changeHouses(const int N);
 };

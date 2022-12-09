@@ -17,6 +17,11 @@ string UtilityProperty::getType() const {
     return "Utility";
 }
 
+void UtilityProperty::sell(){
+    owner = nullptr;
+    return;
+}
+
 unsigned short int UtilityProperty::getNumHouses() const {
     return owner->getNumUtilities();
 }

@@ -16,6 +16,11 @@ string RailroadProperty::getType() const {
     return "Railroad";
 }
 
+void RailroadProperty::sell(){
+    owner = nullptr;
+    return;
+}
+
 unsigned short int RailroadProperty::getPrice() const {
     return 25 * pow(2, owner->getNumRRs()-1);
 }

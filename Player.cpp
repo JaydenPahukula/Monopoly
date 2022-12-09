@@ -16,8 +16,71 @@ Player::Player(const string NAME, const bool BOT){
     location = 0;
     inJail = false;
     jailCount = 0;
-    getOutOfJailCards = 1;
+    getOutOfJailCards = 0;
     balance = 1500;
+}
+
+bool Player::resolveDebt(){
+    char choice = ' ';
+    cout << "    You are $" << -balance << " in debt. What would you like to do?\n      1 - Sell a house\n      2 - Go bankrupt" << endl;
+        if (bot){
+            cout << "      2" << endl;
+            choice = '2';
+        } else {
+            do {
+                cout << "      ";
+                cin >> choice;
+                cin.ignore();
+            } while (choice != '1' && choice != '2');
+        }
+
+        //go bankrupt
+        if (choice == '2'){
+            for (unsigned int i = 0; i < ownedProperties.size(); i++){
+                ownedProperties[i]->sell();
+            }
+            ownedProperties.clear();
+            return false;
+        }
+
+        //sell a house
+        if (choice == '1'){
+
+            //determine which property to sell
+            cout << "\n    Which property?" << endl;
+            char propertyChoice = ' ';
+            vector<int> options = printOwnableProperties();
+            if (options.size() == 0){
+                cout << endl;
+                return true;
+            }
+            bool done = false;
+            while (1){
+                cout << "    ";
+                cin >> propertyChoice;
+                cin.ignore();
+                for (unsigned int i = 0; i < options.size(); i++){
+                    if (int(propertyChoice-'1') == options[i]){
+                        done = true;
+                        break;
+                    }
+                }
+                if (done){ break; }
+            }
+            int property = int(propertyChoice-'1');
+
+            //check if property has houses
+            if (ownedProperties[property]->getNumHouses() <= 0){
+                cout << "    This property doesn't have any houses to sell" << endl << endl;
+                return true;
+            }
+
+            //sell house
+            balance += ownedProperties[property]->getPriceTable()[1];
+            ownedProperties[property]->changeHouses(-1);
+            cout << "    Sold 1 house on " << ownedProperties[property]->getName() << " for $" << ownedProperties[property]->getPriceTable()[1] << endl << endl;
+        }
+        return true;
 }
 
 void Player::goToJail(){
@@ -117,7 +180,7 @@ void Player::preTurn(){
         if (choice == '1'){ return; }
 
         //view properties
-        if (choice == '2'){ printPropertyInfo(); goToJail(); }
+        if (choice == '2'){ printPropertyInfo(); }
 
         //buy/sell house
         if (choice == '3' || choice == '4'){
@@ -197,7 +260,7 @@ void Player::preTurn(){
                 if (confirm == 'Y'){
                     balance += ownedProperties[property]->getPriceTable()[1];
                     ownedProperties[property]->changeHouses(-1);
-                    cout << "  Purchased! (new balance is $" << balance << ")" << endl;
+                    cout << "  Sold! (new balance is $" << balance << ")" << endl;
                 }
                 cout << endl;
             }
@@ -245,6 +308,188 @@ bool Player::move(){
     }
 
     return doubles;
+}
+
+void Player::drawChanceCard(){
+    unsigned short int r = rand() % 16;
+    cout << "      ";
+    switch (r){
+        case 0: {
+            cout << "Advance to Boardwalk" << endl;
+            location = 39;
+            break;
+        } case 1: {
+            cout << "Advance to Go (Collect $200)" << endl;
+            location = 0;
+            balance += 200;
+            break;
+        } case 2: {
+            cout << "Advance to Illinois Avenue. If you pass Go, collect $200" << endl;
+            if (location > 24){
+                cout << "      Passed Go, Collected $200!" << endl;
+            }
+            location = 24;
+            break;
+        } case 3: {
+            cout << "Advance to St. Charles Place. If you pass Go, collect $200" << endl;
+            if (location > 11){
+                cout << "      Passed Go, Collected $200!" << endl;
+            }
+            location = 11;
+            break;
+        } case 4:
+          case 5: {
+            cout << "Advance token to the nearest Railroad" << endl;
+            if (location < 15){
+                location = 15;
+            } else if (location < 25){
+                location = 25;
+            } else {
+                location = 5;
+            }
+            break;
+        } case 6: {
+            cout << "Advance token to the nearest Utility" << endl;
+            if (location < 12 || location > 28){
+                location = 12;
+            } else {
+                location = 28;
+            }
+            break;
+        } case 7: {
+            cout << "Bank pays you dividend of $50" << endl;
+            balance += 50;
+            break;
+        } case 8: {
+            getOutOfJailCards += 1;
+            cout << "Get Out of Jail Free (you now have " << getOutOfJailCards << ")" << endl;
+            break;
+        } case 9: {
+            cout << "Go back 3 spaces" << endl;
+            location -= 3;
+            break;
+        } case 10: {
+            cout << "Go to Jail. Go directly to jail, do not pass Go, do not collect $200" << endl;
+            goToJail();
+            break;
+        } case 11: {
+            cout << "Make general repairs on all your property. For each house pay $25. For each hotel pay $100" << endl;
+            int total = 0;
+            for (unsigned int i = 0; i < ownedProperties.size(); i++){
+                if (ownedProperties[i]->getNumHouses() == 5){
+                    total += 100;
+                } else {
+                    total += 25 * ownedProperties[i]->getNumHouses();
+                }
+            }
+            balance -= total;
+            cout << "        You paid $" << total << endl;
+            break;
+        } case 12: {
+            cout << "Speeding fine $15" << endl;
+            balance -= 15;
+            break;
+        } case 13: {
+            cout << "Take a trip to Reading Railroad. If you pass Go, collect $200" << endl;
+            if (location > 5){
+                cout << "      Passed Go, Collected $200!" << endl;
+            }
+            location = 5;
+            break;
+        } case 14: {
+            cout << "You have been elected Chairman of the Board. Pay $50" << endl;
+            balance -= 50;
+            break;
+        } case 15: {
+            cout << "Your building loan matures. Collect $150" << endl;
+            balance += 150;
+            break;
+        }
+    }
+    return;
+}
+
+void Player::drawCCCard(){
+    unsigned short int r = rand() % 16;
+    cout << "      ";
+    switch (r){
+        case 0: {
+            cout << "Advance to Go (Collect $200)" << endl;
+            location = 0;
+            balance += 200;
+            break;
+        } case 1: {
+            cout << "Bank error in your favor. Collect $200" << endl;
+            balance += 200;
+            break;
+        } case 2: {
+            cout << "Doctor's fee. Pay $50" << endl;
+            balance -= 50;
+            break;
+        } case 3: {
+            cout << "From sale of stock you get $50" << endl;
+            balance += 50;
+            break;
+        } case 4: {
+            getOutOfJailCards += 1;
+            cout << "Get Out of Jail Free (you now have " << getOutOfJailCards << ")" << endl;
+            break;
+        } case 5: {
+            cout << "Go to Jail. Go directly to jail, do not pass Go, do not collect $200" << endl;
+            goToJail();
+            break;
+        } case 6: {
+            cout << "Holiday fund matures. Receive $100" << endl;
+            balance += 100;
+            break;
+        } case 7: {
+            cout << "Income tax refund. Collect $20" << endl;
+            balance += 20;
+            break;
+        } case 8: {
+            cout << "It is your birthday. Collect $10" << endl; //i cheated on this one
+            balance += 10;
+            break;
+        } case 9: {
+            cout << "Live insurance matures. Collect $100" << endl;
+            balance += 100;
+            break;
+        } case 10: {
+            cout << "Pay hospital fees of $100" << endl;
+            balance -= 100;
+            break;
+        } case 11: {
+            cout << "Pay school fees of $50" << endl;
+            balance -= 50;
+            break;
+        } case 12: {
+            cout << "Receive $25 consultancy fee" << endl;
+            balance += 25;
+            break;
+        } case 13: {
+            cout << "You are assessed for street repair. $40 per house. $115 per hotel" << endl;
+            int total = 0;
+            for (unsigned int i = 0; i < ownedProperties.size(); i++){
+                if (ownedProperties[i]->getNumHouses() == 5){
+                    total += 115;
+                } else {
+                    total += 40 * ownedProperties[i]->getNumHouses();
+                }
+            }
+            balance -= total;
+            cout << "        You paid $" << total << endl;
+            break;
+        } case 14: {
+            cout << "You have won second prize in a beauty contest. Collect $10" << endl;
+            balance += 10;
+            break;
+        } case 15: {
+            cout << "You inherit $100" << endl;
+            balance += 100;
+            break;
+        }
+    }
+    return;
 }
 
 void Player::buy(Property* PROPERTY, const unsigned int PRICE){

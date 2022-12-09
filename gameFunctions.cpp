@@ -130,14 +130,13 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
         names[i] = splitName(fullname);
     }
 
-    string pieces[4] = {"CPU1", "P1", "P2", "ME"};
     vector<string> locations(41, "");
     for (unsigned int i = 0; i < players.size(); i++){
         int l = players[i]->getLocation();
         if (players[i]->isInJail() == true){
             l = 40;
         }
-        locations[l] += "{" + pieces[i] + "}";
+        locations[l] += "{" + players[i]->getName() + "}";
     }
     
     //row 1
@@ -200,7 +199,7 @@ void printGame(const vector<Player*> players, const vector<Property*> properties
     printColor("   ", 32);
     cout << center(locations[32],11) << "|" << endl;
     //row 15
-    cout << "15 |--------------|          The worlds finest object-oriented board game!                                           |--------------|" << endl;
+    cout << "15 |--------------|          America's favorite object-oriented board game!                                             |--------------|" << endl;
     //row 16
     cout << "16 |" << center(names[17][0], 14);
     cout << "|               ********************************************************************               |";

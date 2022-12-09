@@ -30,6 +30,12 @@ OwnableProperty::OwnableProperty(const string NAME, const int ID, const vector<i
     numHouses = 0;
 }
 
+void OwnableProperty::sell(){
+    owner = nullptr;
+    numHouses = 0;
+    return;
+}
+
 string OwnableProperty::getType() const {
     return "Ownable";
 }

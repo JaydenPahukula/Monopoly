@@ -28,6 +28,7 @@ class Player final {
         void preTurn();
         bool move();
         void goToJail();
+        bool resolveDebt();
         void buy(Property* PROPERTY, const unsigned int PRICE);
         void changeBalance(const int AMOUNT);
         int getBalance() const;
@@ -37,6 +38,8 @@ class Player final {
         unsigned short int getNumUtilities() const;
         bool isInJail() const;
         bool isBot() const;
+        void drawChanceCard();
+        void drawCCCard();
 
 };
 

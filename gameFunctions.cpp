@@ -23,13 +23,36 @@ array<int, 2> roll(){
 
 void setup(vector<Player*>* players, vector<Property*>* properties){
 
+    //get starting settings
+    cout << "Welcome to Monopoly!\n\nWhat is your name? (3 character max)" << endl;
+    string p1Name = "";
+    do {
+        cin.clear();
+        cin >> p1Name;
+        cin.ignore();
+    } while (p1Name == "" || p1Name.size() > 3);
+
+    cout << "\nHello " << p1Name << "! How many bots would you like to play against? (max 3)" << endl;
+    int numBots = 0;
+    do {
+        cin.clear();
+        cin >> numBots;
+        cin.ignore();
+    } while (numBots < 1 || numBots > 5);
+
+    cout << "\nPress ENTER to begin!";
+    cin.ignore();
+
+
     //initialize players
-    for (unsigned int i = 0; i < players->size(); i++){
-        players->at(i) = new Player("P"+to_string(i+1), i);
+    players->push_back(new Player(p1Name, false));
+    for (int i = 0; i < numBots; i++){
+        players->push_back(new Player("CP"+to_string(i+1), true));
     }
 
+
     //initialize properties
-    ifstream propertiesFile("settings/properties.txt");
+    ifstream propertiesFile("properties.txt");
     string propertyNames[40];
     for (int i = 0; i < 40; i++){
         getline(propertiesFile, propertyNames[i]);

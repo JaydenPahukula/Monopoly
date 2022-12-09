@@ -14,7 +14,7 @@ using namespace std;
 
 int main() {
 
-    vector<Player*> players(2, nullptr);
+    vector<Player*> players;
     vector<Property*> properties(41, nullptr);
     
     
@@ -33,7 +33,7 @@ int main() {
 
         printGame(players, properties);
 
-        cout << "\nIt's " << currPlayer->getName() << "'s Turn! (press ENTER to continue)";
+        cout << "\nIts " << currPlayer->getName() << "'s Turn! (press ENTER to continue)";
         cin.ignore();
         if (!currPlayer->isBot()){
             currPlayer->preTurn();

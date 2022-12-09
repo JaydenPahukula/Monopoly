@@ -6,19 +6,18 @@
 
 #include <string>
 #include <vector>
-using namespace std;
 
-array<int, 2> roll();
+std::array<int, 2> roll();
 
-void setup(vector<Player*>* players, vector<Property*>* properties);
+void setup(std::vector<Player*>* players, std::vector<Property*>* properties);
 
-void printColor(string s, int color);
+void printColor(std::string s, int color);
 
-string center(string input, const unsigned int WIDTH);
+std::string center(std::string input, const unsigned int WIDTH);
 
-vector<string> splitName(const string NAME);
+std::vector<std::string> splitName(const std::string NAME);
 
-void printGame(const vector<Player*> players, const vector<Property*> properties);
+void printGame(const std::vector<Player*> players, const std::vector<Property*> properties);
 
 
 #endif
